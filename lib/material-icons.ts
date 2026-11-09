@@ -1,0 +1,2 @@
+export const MATERIAL_ICONS=['apartment','arrow_forward','arrow_outward','bolt','book','check','chevron_right','close','compare_arrows','construction','dark_mode','description','expand_more','home','inventory_2','light_mode','location_on','mail','menu','person','public','router','satellite_alt','search','settings','speed','support_agent','travel_explore','verified_user','wifi'] as const;
+export type MaterialIconName=typeof MATERIAL_ICONS[number];

@@ -1,0 +1,156 @@
+/* One text color per theme, including secondary copy, forms and photo captions. */
+:root {
+  --text: #ffffff;
+  --muted: var(--text);
+  --subtle: var(--text);
+  --selection-surface: #223d66;
+  --action-surface: #315ddc;
+  --action-hover: #2449b6;
+  --callout-surface: #214dae;
+}
+:root[data-theme=light] {
+  --text: #000000;
+  --accent: #2563eb;
+  --accent-wash: #e0e9fc;
+  --selection-surface: #e0e9fc;
+  --action-surface: #e0e9fc;
+  --action-hover: #cfdefb;
+  --callout-surface: #e0e9fc;
+}
+[data-theme=light] .plan-card.featured { border-color: var(--accent); }
+input::placeholder, textarea::placeholder { color: var(--text); opacity: 1; }
+::selection { background: var(--selection-surface); color: var(--text); }
+button:disabled { opacity: 1; border-style: dashed; background: var(--surface-raised); }
+.button.primary, .popular { background: var(--action-surface); }
+.button.primary:hover { background: var(--action-hover); }
+.button.primary:disabled { background: var(--surface-raised); }
+[data-theme=light] .button.primary,
+[data-theme=light] .popular { color: #000000; font-weight: 650; text-shadow: none; }
+[data-theme=light] .button.primary { border-color: var(--accent); }
+[data-theme=light] .skip-link,
+[data-theme=light] .address-search button,
+[data-theme=light] .scroll-link:hover>span { background: var(--action-surface); color: #000000; }
+.button.light { background: var(--surface-raised); }
+.wizard-steps li.active>span { background: var(--action-surface); }
+.final-cta { background: var(--callout-surface); }
+.account-welcome { background: var(--surface-raised); border-color: var(--line); }
+.photo-badge, .photo-coordinate { background: var(--surface); padding: 12px; border-radius: 4px; }
+.equipment-card-photo>span, .product-photo>span, .config-preview-image>span {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 7px 10px;
+  border-radius: 3px;
+  max-width: calc(100% - 80px);
+}
+.equipment-card-photo>svg { background: var(--surface); border-radius: 3px; padding: 3px; width: 28px; height: 28px; }
+.product-zoom { background: var(--surface)!important; border-color: var(--line); }
+.map-controls button, .map-controls button:hover { background: var(--surface-raised); border-color: var(--line); }
+.map-legend button.active { background: var(--selection-surface); }
+.map-city text, .map-city:hover>text, .map-city:focus-visible>text { fill: var(--text); }
+
+/* Glass surfaces preserve contrast without hiding the background photograph. */
+.starlink-hero .hero-shade {
+  background: linear-gradient(90deg,#03091255,#03091222 65%,transparent),linear-gradient(0deg,#060d174d,transparent 22%);
+}
+[data-theme=light] .hero { background: var(--bg); }
+[data-theme=light] .starlink-hero .hero-image { filter: none; }
+[data-theme=light] .starlink-hero .hero-shade {
+  background: linear-gradient(0deg,#f7f7f43d,transparent 18%);
+}
+.starlink-hero .hero-copy {
+  width: min(100%,720px);
+  padding: 28px 32px;
+  background: var(--hero-copy-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.starlink-hero .hero-copy h1 { font-size: clamp(44px,4.8vw,68px); margin-top: 19px; }
+.starlink-hero .hero-footer { margin-top: 25px; padding: 20px 24px; background: var(--hero-footer-surface); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 16px; }
+.starlink-hero .hero-footer .hero-facts { margin-top: 0; }
+[data-theme=light] .hero-product-card { background: #ffffff7a; border-color: var(--line); }
+[data-theme=light] .hero-product-card.selected { background: #ffffff94; border-color: var(--accent); }
+[data-theme=light] .auth-visual-copy>h1 { margin-top: 30px; }
+[data-theme=light] .auth-visual-overlay { background: none; }
+[data-theme=light] .auth-visual-copy { background: var(--surface); border-radius: 5px; padding: 22px; }
+[data-theme=light] .auth-visual-bottom { background: var(--surface); border-radius: 5px; padding: 18px; }
+[data-theme=light] .coverage-map { background: #edf2f8; }
+[data-theme=light] .space-diagram { background: radial-gradient(ellipse at 55% 40%,#d6e4f8,#f7f7f4 68%); }
+[data-theme=light] .space-grid { background-image: linear-gradient(#285cc419 1px,transparent 1px),linear-gradient(90deg,#285cc419 1px,transparent 1px); }
+[data-theme=light] .equipment-catalog-cover { background: var(--surface); display: grid; grid-template-columns: 1fr 1fr; }
+[data-theme=light] .equipment-catalog-cover>img { position: static; grid-column: 2; grid-row: 1; width: 100%; height: 100%; opacity: 1; z-index: auto; }
+[data-theme=light] .equipment-catalog-cover>div { grid-column: 1; grid-row: 1; max-width: none; background: var(--surface); }
+[data-theme=light] .equipment-catalog-cover:after { display: none; }
+
+/* Keep the photo frame stable and add fading layers without a dark midpoint. */
+.starlink-hero { overflow-anchor: none; }
+.starlink-hero .hero-crossfade { background: none; isolation: isolate; animation: none; transform: none; }
+.hero-crossfade>.crossfade-layer,
+.solution-crossfade>.crossfade-layer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 54%;
+  opacity: 0;
+  transition: opacity 850ms cubic-bezier(.22,.61,.36,1);
+  mix-blend-mode: plus-lighter;
+  pointer-events: none;
+}
+.hero-crossfade>.crossfade-layer.is-active,
+.solution-crossfade>.crossfade-layer.is-active { opacity: 1; }
+.solution-crossfade { position: absolute; inset: 0; overflow: hidden; isolation: isolate; }
+@media(prefers-reduced-motion:reduce) {
+  .hero-crossfade>.crossfade-layer,
+  .solution-crossfade>.crossfade-layer { transition: none; }
+}
+
+/* A native button covers the card, while the address form stays above it. */
+.hero-product-card {
+  position: relative;
+  background: #0e141a59;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background-color .25s,border-color .25s;
+}
+.hero-product-card.selected { background: #101b296b; }
+/* The descriptions use the same two-line space in every selected card. */
+.hero-product-card>p { min-block-size: 2lh; }
+.hero-product-select::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 5px; cursor: pointer; }
+.hero-product-select:focus-visible { outline: none; }
+.hero-product-select:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 4px; }
+.hero-product-card:hover { border-color: var(--accent); }
+.hero-product-card .hero-address { position: relative; z-index: 2; }
+
+/* Label and result share the first row; the budget track spans the second. */
+.budget-filter { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 18px 24px; }
+.budget-filter>label { grid-column: 1; grid-row: 1; white-space: normal; flex-wrap: wrap; width: auto; }
+.budget-filter>span { grid-column: 2; grid-row: 1; margin-left: 0; text-align: right; }
+.budget-filter>input { grid-column: 1 / -1; grid-row: 2; width: 100%; max-width: none; min-width: 0; height: 24px; margin: 0; background: transparent; }
+
+@media(max-width:760px) {
+  .starlink-hero { padding-top: 220px; }
+  .starlink-hero .hero-image { height: 100%; bottom: 0; }
+  .starlink-hero .hero-content { padding-top: 0; }
+  .starlink-hero .hero-copy { padding: 23px; }
+  .starlink-hero .hero-copy h1 { font-size: clamp(37px,7.5vw,52px); }
+  .starlink-hero .hero-footer { padding: 18px; }
+  [data-theme=light] .equipment-catalog-cover { display: flex; flex-direction: column; }
+  [data-theme=light] .equipment-catalog-cover>img { height: 260px; object-position: center; }
+  .budget-filter { gap: 18px 12px; }
+}
+
+/* Accessory product photos reserve space before loading and remain uncropped. */
+.accessory-photo {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #171d24;
+  margin-bottom: 24px;
+}
+.accessory-photo>img { display: block; width: 100%; height: 100%; object-fit: contain; }

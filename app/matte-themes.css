@@ -1,0 +1,100 @@
+/* Neutral surfaces inspired by VS Code's 2026 palettes. Base data-theme is
+   retained so every existing light/dark photograph, icon and form still adapts. */
+:root[data-appearance=light-2026],.theme-preview[data-preview=light-2026] {
+ --bg:#f6f6f6;--panel:#fafafa;--surface:#fafafa;--surface-raised:#ededed;--input:#fdfdfd;
+ --text:#202020;--muted:#525252;--subtle:#525252;--line:#d8d8d8;--header:#f6f6f6f5;
+ --accent:#4b4b4b;--accent-strong:#4b4b4b;--accent-hover:#383838;--accent-wash:#e7e7e7;--selection-surface:#dedede;
+ --action-surface:#dedede;--action-hover:#d2d2d2;--callout-surface:#e9e9e9;
+ --shadow:#1010100c;--app-shadow:0 8px 24px #10101008;--app-soft-shadow:none;
+ color-scheme:light;
+}
+:root[data-appearance=dark-2026],.theme-preview[data-preview=dark-2026] {
+ --bg:#141414;--panel:#1a1a1a;--surface:#1a1a1a;--surface-raised:#252525;--input:#171717;
+ --text:#e4e4e4;--muted:#b7b7b7;--subtle:#b7b7b7;--line:#363636;--header:#1a1a1af5;
+ --accent:#b8b8b8;--accent-strong:#b8b8b8;--accent-hover:#cccccc;--accent-wash:#292929;--selection-surface:#303030;
+ --action-surface:#424242;--action-hover:#4d4d4d;--callout-surface:#262626;
+ --shadow:#00000026;--app-shadow:0 8px 24px #00000020;--app-soft-shadow:none;
+ color-scheme:dark;
+}
+:root[data-appearance=light-2026] .button.primary { color:var(--text);font-weight:600; }
+:root[data-appearance$="-2026"] .button.primary:not(:disabled):hover { box-shadow:none; }
+:root[data-appearance$="-2026"] .choice-select-menu { box-shadow:0 10px 24px var(--shadow); }
+:root[data-appearance$="-2026"] .theme-options>button[aria-pressed=true] { box-shadow:none; }
+:root[data-appearance=dark-2026] .brand>.brand-mark { background:#252525;box-shadow:none;border-color:#5c5c5c; }
+:root[data-appearance$="-2026"] .brand-mark stop { stop-color:var(--text); }
+:root[data-appearance=light-2026] .starlink-hero { --hero-copy-surface:#f5f5f580;--hero-footer-surface:#f5f5f57a;--hero-address-surface:#f5f5f53d;--hero-address-border:#20202038; }
+:root[data-appearance=dark-2026] .starlink-hero { --hero-copy-surface:#17171766;--hero-footer-surface:#17171759;--hero-address-surface:#1414143d;--hero-address-border:#e4e4e452; }
+:root[data-appearance=light-2026] .hero-product-grid { --hero-card-surface:#f5f5f57a; }
+:root[data-appearance=dark-2026] .hero-product-grid { --hero-card-surface:#17171759; }
+:root[data-appearance=light-2026] .coverage-map { background:#f1f1f1;--map-land:#d8d8d8;--map-border:#707070;--map-grid:#70707033;--map-label-surface:#f1f1f1; }
+:root[data-appearance=dark-2026] .coverage-map { background:#171717;--map-land:#363636;--map-border:#a0a0a0;--map-grid:#a0a0a033;--map-label-surface:#171717; }
+:root[data-appearance=light-2026] .orbit-app {
+ --orbit-bg:#f6f6f6;--orbit-panel:#fafafa;--orbit-muted:#525252;--orbit-line:#d8d8d8;
+ --orbit-sea:#e5e5e5;--orbit-sea-light:#f2f2f2;--orbit-land:#ababab;--orbit-land-line:#747474;--orbit-trace:#444444;
+}
+:root[data-appearance=dark-2026] .orbit-app {
+ --orbit-bg:#141414;--orbit-panel:#1a1a1a;--orbit-muted:#b7b7b7;--orbit-line:#363636;
+ --orbit-sea:#222222;--orbit-sea-light:#383838;--orbit-land:#606060;--orbit-land-line:#a0a0a055;--orbit-trace:#c3c3c3;
+}
+:root[data-appearance$="-2026"] .orbit-map-panel { background:var(--orbit-panel); }
+:root[data-appearance$="-2026"] .speed-meter-surface::before { opacity:.35; }
+
+/* Neutralise decorative colours inherited from the original blue themes. */
+:root[data-appearance$="-2026"] .speed-gauge stop:first-child { stop-color:var(--accent-strong); }
+:root[data-appearance$="-2026"] .speed-gauge stop:last-child { stop-color:var(--muted); }
+:root[data-appearance$="-2026"] .speed-up-line { stroke:var(--muted); }
+:root[data-appearance$="-2026"] .speed-plot-legend i:nth-of-type(2) { background:var(--muted); }
+:root[data-appearance$="-2026"] .map-pin-halo { fill:color-mix(in srgb,var(--accent) 20%,transparent); }
+:root[data-appearance$="-2026"] .map-city.planned .map-pin { fill:var(--muted); }
+:root[data-appearance$="-2026"] .map-city.planned .map-pin-halo { fill:color-mix(in srgb,var(--muted) 17%,transparent); }
+:root[data-appearance$="-2026"] .map-legend i,:root[data-appearance$="-2026"] .coverage-dot { background:var(--muted); }
+:root[data-appearance$="-2026"] .map-legend i.live,:root[data-appearance$="-2026"] .coverage-dot.live { background:var(--accent); }
+:root[data-appearance$="-2026"] .signal-dot { background:var(--accent);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 45%,transparent);animation:none; }
+:root[data-appearance$="-2026"] .orbit-dot { box-shadow:0 0 20px color-mix(in srgb,var(--accent) 50%,transparent); }
+:root[data-appearance$="-2026"] .billing-toggle button span { background:var(--accent-wash); }
+:root[data-appearance$="-2026"] .plan-card.featured { border-color:var(--accent); }
+:root[data-appearance$="-2026"] .coverage-result { border-color:var(--line);background:var(--surface); }
+:root[data-appearance$="-2026"] .account-link:hover { border-color:var(--accent); }
+:root[data-appearance$="-2026"] .account-order-icon { background:var(--accent-wash);border-color:var(--line); }
+:root[data-appearance$="-2026"] .status-badge.cancelled { background:var(--surface-raised);border-color:var(--line); }
+:root[data-appearance$="-2026"] .account-user>span { background:var(--accent-wash); }
+:root[data-appearance$="-2026"] .account-sidebar nav>button.active { background:var(--selection-surface);border-color:var(--accent); }
+:root[data-appearance$="-2026"] .cta-rings { stroke:var(--line); }
+:root[data-appearance$="-2026"] .technology-diagram { background:radial-gradient(ellipse at 50% 75%,var(--accent-wash),transparent 70%); }
+:root[data-appearance$="-2026"] .signal-beam { background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 15%,transparent),transparent);border-color:var(--accent); }
+:root[data-appearance$="-2026"] .space-diagram { background:radial-gradient(ellipse at 55% 40%,var(--surface-raised),var(--bg) 68%); }
+:root[data-appearance$="-2026"] .space-grid { background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); }
+:root[data-appearance$="-2026"] .space-ring { border-color:var(--line); }
+:root[data-appearance$="-2026"] .login-orbit { background:radial-gradient(circle,var(--accent-wash),transparent); }
+:root[data-appearance$="-2026"] .login-orbit:before { border-color:var(--line); }
+:root[data-appearance$="-2026"] .accessory-illustration { background:radial-gradient(ellipse at center,var(--accent-wash),transparent 70%),var(--surface-raised); }
+:root[data-appearance$="-2026"] .welcome-globe svg,:root[data-appearance$="-2026"] .terminal-art,:root[data-appearance$="-2026"] .router-art { filter:grayscale(1); }
+:root[data-appearance$="-2026"] .starlink-hero .hero-shade { background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 24%,transparent),transparent 18%); }
+:root[data-appearance$="-2026"] .photo-vignette { background:linear-gradient(0deg,#151515d9,transparent 65%); }
+
+/* Previews use the actual variant tokens in their own scope. */
+.theme-options { grid-template-columns:repeat(2,minmax(0,1fr));gap:15px; }
+.theme-options>button { padding:10px;background:var(--surface);transition:border-color .18s,background-color .18s;min-width:0; }
+.theme-options>button:hover { border-color:var(--accent); }
+.theme-options>button:focus-visible { outline:2px solid var(--accent);outline-offset:4px; }
+.theme-preview[data-preview=light] { --bg:#f7f7f4;--surface:#ffffff;--surface-raised:#edf0f1;--text:#000000;--line:#d4d8de;--selection-surface:#e0e9fc;--action-surface:#e0e9fc; }
+.theme-preview[data-preview=dark] { --bg:#080c12;--surface:#101821;--surface-raised:#182330;--text:#ffffff;--line:#394555;--selection-surface:#223d66;--action-surface:#315ddc; }
+.theme-options .theme-preview { display:grid;grid-template-columns:25% 1fr;grid-template-rows:22px 1fr;gap:0;aspect-ratio:1.7;background:var(--bg);border-color:var(--line);padding:0;overflow:hidden;color:var(--text); }
+.theme-options .theme-preview>span { display:block;height:auto;border-radius:0;grid-column:auto;background:transparent;border:0; }
+.theme-options .theme-preview>.theme-mini-header { grid-column:1/-1;display:flex;gap:9px;align-items:center;background:var(--surface);border-bottom:1px solid var(--line);padding:0 9px; }
+.theme-mini-header>i:first-child { width:5px;height:5px;border-radius:50%;background:var(--action-surface); }
+.theme-mini-header>i:last-child { width:40%;height:5px;border-radius:3px;background:var(--surface-raised); }
+.theme-options .theme-preview>.theme-mini-sidebar { background:var(--surface);padding:13px 7px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:7px; }
+.theme-mini-sidebar>i { height:4px;border-radius:4px;background:var(--text);opacity:.3;width:70%; }
+.theme-mini-sidebar>i:first-child { width:100%;height:11px;background:var(--selection-surface);opacity:1; }
+.theme-options .theme-preview>.theme-mini-content { display:flex;flex-direction:column;gap:6px;padding:14px 13px;background:var(--bg);align-items:flex-start; }
+.theme-mini-content>b { width:68%;height:6px;border-radius:3px;background:var(--text);opacity:.85;margin-bottom:4px; }
+.theme-mini-content>i { width:100%;height:4px;border-radius:3px;background:var(--text);opacity:.35; }
+.theme-mini-content>i:nth-of-type(2) { width:77%; }
+.theme-mini-content>span { width:47%;height:14px;border-radius:5px;background:var(--action-surface);margin-top:4px; }
+.theme-options>button>.theme-option-heading { display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 3px 4px;font-size:12px;line-height:1.5; }
+.theme-option-heading>span { display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted); }
+.theme-options>button>.theme-option-description { display:block;font-size:10px;line-height:1.7;color:var(--muted);padding:0 3px 5px; }
+.theme-settings-note { font-size:11px;line-height:1.9;margin-top:22px;color:var(--muted); }
+@media(max-width:430px) { .theme-options { grid-template-columns:1fr; }.theme-options .theme-preview { max-height:155px;aspect-ratio:2; } }
+@media(prefers-reduced-motion:reduce) { .theme-options>button { transition:none; } }
