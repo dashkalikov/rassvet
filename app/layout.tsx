@@ -12,6 +12,7 @@ import "./imagery.css";
 import "./account-settings.css";
 import "./choices.css";
 import "./matte-themes.css";
+import "./operations.css";
 import {APPEARANCE_BOOTSTRAP} from '../lib/appearance';
 
 export const metadata: Metadata = {

@@ -28,6 +28,22 @@
 
 > Use case: ads-marketing. Asset type: cinematic website hero background, panoramic 3:2 landscape. A photorealistic view from low earth orbit at dawn, the massive gently curved horizon of Earth occupying the bottom half, natural deep cobalt blue atmosphere and detailed white clouds, nearly black navy starless space in the upper half, a restrained warm orange sunrise at the right edge of the horizon. Earth’s arc descends toward the left, bright blue sunlight grazes clouds. High contrast, premium aerospace editorial photography, subtle film grain, dramatic but physically grounded, no spacecraft, no planets besides Earth, no graphic overlays, no text, no logos. Leave dark empty negative space at upper left for website typography. Render as realistic NASA quality photography with rich blue cloud detail, not illustration.
 
+## Инженерный портал
+
+Три иллюстрации созданы встроенным ImageGen и сохранены в `public/assets/engineering/` в формате WebP.
+
+`orbit-hero.webp` — спутник над Землёй для главной страницы.
+
+> Create a realistic cinematic editorial photograph for the wide landscape hero of a modern satellite telemetry dashboard, 3:2 landscape. View from low Earth orbit looking down at the Earth's curved limb, white cloud patterns and deep blue oceans across the lower right, delicate Arctic nightfall and a pale icy blue atmospheric rim sweeping across from mid-right to lower-left. On the upper-right quadrant one small realistic low Earth orbit communications satellite, metallic rectangular bus and wide deep-blue solar array wings, seen from above at a slight 3/4 angle, no motion blur. Have the upper left and left third largely dark empty outer space for a white text overlay; very restrained low saturation in charcoal, indigo and ice blue, quiet fine grain and plausible optical lighting. Avoid orange/pink, neon, infographic annotations, vector lines, any letters, numbers, logo, labels, map text, fake panels, or typography. Composition should survive a 3:1 wide crop with subject centered vertically, satellite appreciably to the right. High-quality credible orbital observation photography.
+
+`ground-station.webp` — наземная антенна для карточки метрик.
+
+> Landscape 3:2 realistic editorial photograph for a small dark technology operations portal card, depicting a modern satellite ground station during blue hour. One medium white parabolic antenna, cold charcoal foreground, technical access walkway and a thin slate horizon; geographically plausible isolated Nordic terrain. High legibility in a small thumbnail, striking dish silhouette, restrained neutral blue-gray palette, no text, no branding, no graphics, no orange, no people. Center the dish, occupy 65% of frame height, photographic lighting.
+
+`subscriber-terminal.webp` — абонентский терминал для карточки подписок.
+
+> Landscape 3:2 realistic editorial photograph for an engineering dashboard card about satellite broadband subscriptions. A compact white flat rectangular satellite internet terminal installed on a low metal mount beside the upper roof of a quiet modern rural cabin, medium close shot of terminal, soft misty pine forest behind, subdued gray and clean neutral lighting, slightly warm wood in background only, technical product photography, no text or marks, no people, no drawn elements. Main object clearly visible in tiny square crop, center composition.
+
 ## Фотографии
 
 - `public/assets/home.jpg`: [Unsplash, дом среди деревьев](https://images.unsplash.com/photo-1449844908441-8829872d2607).

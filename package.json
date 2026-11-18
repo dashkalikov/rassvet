@@ -7,7 +7,9 @@
   },
   "scripts": {
     "local": "node scripts/local.mjs",
+    "demo": "node --import ./scripts/sites-env.mjs scripts/seed-demo.mjs",
     "test": "node --test tests/*.test.ts",
+    "test:http": "node --import ./scripts/sites-env.mjs tests/http-smoke.mjs",
     "typecheck": "tsc --noEmit",
     "assets:audit": "node scripts/audit-section-images.mjs",
     "install:ci": "node scripts/install-ci.mjs",

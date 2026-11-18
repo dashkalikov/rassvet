@@ -1,0 +1,9 @@
+{
+  "url": "https://findrassvet.ru/api/series",
+  "author": "findrassvet.ru, V. Bulybenko",
+  "generatedAt": "2026-11-18T03:12:01.954Z",
+  "method": "Kepler a, source WGS72 height + 6378.135 km, normalized mu to 398600.4418 km^3/s^2",
+  "methodology": "https://github.com/vbklgd/findrassvet/blob/main/METHODOLOGY.md",
+  "satellites": 30,
+  "observations": 12865
+}

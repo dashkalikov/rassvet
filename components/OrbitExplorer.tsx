@@ -8,7 +8,7 @@ import ChoiceSelect from './ChoiceSelect';
 import OrbitMap from './OrbitMap';
 import OrbitHistoryChart from './OrbitHistoryChart';
 import elements from '../lib/data/orbit-catalog.json';
-import archive from '../lib/data/orbit-history.json';
+import archive from '../lib/data/findrassvet-history.json';
 import {climbRate,createOrbitModel,mergeOrbitHistory,orbitPosition,orbitTrack,parseOrbitCatalog,type OrbitHistory,type OrbitSatellite} from '../lib/orbits';
 
 const STORAGE='rassvet-orbits-v1',BASE_INPUT=JSON.stringify(elements),BASE_CATALOG=parseOrbitCatalog(BASE_INPUT);
@@ -38,6 +38,7 @@ export default function OrbitExplorer(){
  const filtered=useMemo(()=>models.filter(m=>(!onlyFavorites||favorites.includes(m.satellite.id))&&`${m.satellite.name} ${m.satellite.id}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>sort==='altitude'?a.parameters.semiMajorAxisKm-b.parameters.semiMajorAxisKm:sort==='id'?Number(a.satellite.id)-Number(b.satellite.id):a.satellite.name.localeCompare(b.satellite.name,'ru',{numeric:true})),[models,query,sort,onlyFavorites,favorites]);
 
  useEffect(()=>{
+  const frame=requestAnimationFrame(()=>{
   try{
    const raw=localStorage.getItem(STORAGE);
    if(raw&&raw.length<3_000_000){
@@ -45,7 +46,7 @@ export default function OrbitExplorer(){
     setInput(saved.input);setCatalog(restored);setSelectedId(restored.some(s=>s.id===saved.selectedId)?saved.selectedId:restored[0].id);
     // History is optional. Validate stored observations before plotting them.
     const safe:OrbitHistory={...archive};
-    for(const sat of restored){const points=saved.history?.[sat.id];if(Array.isArray(points))safe[sat.id]=points.slice(-500).filter(p=>p&&typeof p.epoch==='string'&&Number.isFinite(Date.parse(p.epoch))&&typeof p.semiMajorAxisKm==='number'&&p.semiMajorAxisKm>6378&&p.semiMajorAxisKm<1_000_000);}
+    for(const sat of restored){const points=saved.history?.[sat.id];if(Array.isArray(points))safe[sat.id]=[...(archive[sat.id as keyof typeof archive]??[]),...points.slice(-500).filter(p=>p&&typeof p.epoch==='string'&&Number.isFinite(Date.parse(p.epoch))&&typeof p.semiMajorAxisKm==='number'&&p.semiMajorAxisKm>6378&&p.semiMajorAxisKm<1_000_000)];}
     setHistory(mergeOrbitHistory(safe,restoredModels));setFavorites(Array.isArray(saved.favorites)?saved.favorites.filter((id:unknown)=>typeof id==='string').slice(0,200):[]);
     setSource(typeof saved.source==='string'?saved.source:BASE_SOURCE);setSourceAt(Number.isFinite(saved.sourceAt)?saved.sourceAt:SNAPSHOT_AT);setAttemptAt(Number.isFinite(saved.attemptAt)?saved.attemptAt:SNAPSHOT_AT);
     const reference=Math.max(...restored.map(s=>Date.parse(s.epoch)));const start=Math.abs(Date.now()-reference)<7*86_400_000?Date.now():reference;
@@ -53,10 +54,11 @@ export default function OrbitExplorer(){
    }else{const start=Math.abs(Date.now()-BASE_TIME)<7*86_400_000?Date.now():BASE_TIME;setTime(start);setAnchor(start);}
   }catch{setMessage('Сохранённые настройки недоступны. Открыт встроенный каталог.');}
   setReady(true);
-  return()=>controller.current?.abort();
+  });
+  return()=>{cancelAnimationFrame(frame);controller.current?.abort();};
  },[]);
- useEffect(()=>{if(!ready)return;try{localStorage.setItem(STORAGE,JSON.stringify({version:1,input,selectedId,history,favorites,source,sourceAt,attemptAt}));}catch{setMessage('Браузер не смог сохранить настройки. Текущий просмотр продолжает работать.');}},[ready,input,selectedId,history,favorites,source,sourceAt,attemptAt]);
- useEffect(()=>{if(!ready)return;const remaining=attemptAt+CACHE_MS-Date.now();setCanRefresh(remaining<=0);if(remaining<=0)return;const timer=setTimeout(()=>setCanRefresh(true),Math.min(remaining,2_147_483_647));return()=>clearTimeout(timer);},[ready,attemptAt]);
+ useEffect(()=>{if(!ready)return;const frame=requestAnimationFrame(()=>{try{localStorage.setItem(STORAGE,JSON.stringify({version:1,input,selectedId,history,favorites,source,sourceAt,attemptAt}));}catch{setMessage('Браузер не смог сохранить настройки. Текущий просмотр продолжает работать.');}});return()=>cancelAnimationFrame(frame);},[ready,input,selectedId,history,favorites,source,sourceAt,attemptAt]);
+ useEffect(()=>{if(!ready)return;let timer:ReturnType<typeof setTimeout>;const update=()=>{const remaining=attemptAt+CACHE_MS-Date.now();setCanRefresh(remaining<=0);if(remaining>0)timer=setTimeout(update,Math.min(remaining,2_147_483_647));};timer=setTimeout(update,0);return()=>clearTimeout(timer);},[ready,attemptAt]);
  useEffect(()=>{
   if(!playing)return;let previous=Date.now();
   const timer=setInterval(()=>{const now=Date.now(),elapsed=now-previous;previous=now;if(!document.hidden)setTime(t=>t+elapsed*Number(rate));},1000);

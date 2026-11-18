@@ -29,6 +29,27 @@
       "when": 1793814616520,
       "tag": "0003_complex_devos",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1794852567715,
+      "tag": "0004_operations",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1794852750814,
+      "tag": "0005_orbit_observations",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1794863188576,
+      "tag": "0006_account_password_reset",
+      "breakpoints": true
     }
   ]
 }

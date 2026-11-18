@@ -8,6 +8,10 @@ export function createRecords(db: DrizzleD1Database<typeof schema>, userId: stri
   const { orders, profiles, tickets } = schema;
   return {
     async getOrder(id:string){return db.select().from(orders).where(and(eq(orders.id,id),eq(orders.userId,userId))).get();},
+    async activateOrder(id:string){
+      const rows=await db.update(orders).set({status:'active'}).where(and(eq(orders.id,id),eq(orders.userId,userId),eq(orders.status,'new'))).returning();
+      return rows[0]??null;
+    },
     async updateOrder(id:string,input:unknown){
       const existing=await db.select().from(orders).where(and(eq(orders.id,id),eq(orders.userId,userId),eq(orders.status,'new'))).get();
       if(!existing)return null;

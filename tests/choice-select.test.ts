@@ -10,10 +10,10 @@ type Props={id?:string;name?:string;value:string;disabled?:boolean;'aria-label'?
 function component(){
   const file=new URL('../components/ChoiceSelect.tsx',import.meta.url);
   assert.ok(existsSync(file),'Custom choice controls must render a consistent accessible trigger');
-  const require=createRequire(file),module={exports:{} as {default:React.ComponentType<Props>}};
+  const require=createRequire(file),testModule={exports:{} as {default:React.ComponentType<Props>}};
   const {outputText}=ts.transpileModule(readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true,target:ts.ScriptTarget.ES2022}});
-  new Function('require','module','exports',outputText)(require,module,module.exports);
-  return module.exports.default;
+  new Function('require','module','exports',outputText)(require,testModule,testModule.exports);
+  return testModule.exports.default;
 }
 const options=[{value:'home',label:'РАССВЕТ Дом · до 150 Мбит/с'},{value:'travel',label:'РАССВЕТ В пути · до 250 Мбит/с'}];
 

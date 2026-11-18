@@ -14,9 +14,9 @@ test('unknown plans and blank delivery addresses cannot become orders', () => {
   assert.throws(() => buildOrder({ plan: 'free', billing: 'monthly', address: 'Москва, 12' }), /тариф/);
   assert.throws(() => buildOrder({ plan: 'home', billing: 'monthly', address: '   ' }), /адрес/);
 });
-test('coverage distinguishes demo regions, planned regions and unknown addresses', () => {
+test('demo subscriptions are available across Russian regions', () => {
   assert.equal(checkCoverage('Москва, Лесная, 7').status, 'available');
-  assert.equal(checkCoverage('Владивосток, улица Мира, 2').status, 'planned');
+  for(const city of ['Владивосток','Якутск','Калининград','Улан-Удэ','Мурманск','Южно-Сахалинск'])assert.equal(checkCoverage(city).status,'available');
   assert.equal(checkCoverage('Неизвестный город, дом 2').status, 'unknown');
   assert.throws(() => checkCoverage(''), /адрес/);
 });

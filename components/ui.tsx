@@ -1,12 +1,13 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { X, ArrowUpRight, Menu, ArrowRight } from 'lucide-react';
 import AuthForm from './AuthForm';
 import BrandMark from './BrandMark';
 export {api} from '../lib/client-api';
-export type User = { name: string; email: string; avatar?: string };
+export type User = { name: string; email: string; avatar?: string; role?: import('../lib/operations-policy').Role };
 export function Brand({ small = false }: { small?: boolean }) {
-  return <a href="/" className={`brand ${small ? 'small' : ''}`} aria-label="РАССВЕТ — главная"><BrandMark/><span>РАССВЕТ<span className="brand-caption">СПУТНИКОВАЯ СВЯЗЬ</span></span></a>;
+  return <Link href="/" className={`brand ${small ? 'small' : ''}`} aria-label="РАССВЕТ — главная"><BrandMark/><span>РАССВЕТ<span className="brand-caption">СПУТНИКОВАЯ СВЯЗЬ</span></span></Link>;
 }
 export function Modal({ title, children, close, wide = false }: { title: string; children: ReactNode; close: () => void; wide?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);

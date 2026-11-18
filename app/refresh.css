@@ -1,5 +1,20 @@
 /* Shared visual system. Icon geometry is local Google Material Symbols SVG. */
 :root { --app-shadow: 0 12px 32px #00000020; --app-soft-shadow: 0 5px 18px #00000012; }
+.visual-fullscreen { position:relative; min-width:0; }
+.fullscreen-tools { display:flex; justify-content:flex-end; padding:10px 14px 0; }
+.fullscreen-tools button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:34px; padding:6px 10px; border:1px solid var(--line); border-radius:10px; background:var(--surface); color:var(--text); font-size:11px; cursor:pointer; }
+.fullscreen-tools button:hover { background:var(--surface-raised); }
+.visual-fullscreen:fullscreen,.visual-fullscreen.fullscreen-fallback { width:100%; height:100%; margin:0; padding:20px; border:0; border-radius:0; background:var(--bg,var(--surface)); color:var(--text); display:flex; flex-direction:column; overflow:auto; }
+.visual-fullscreen.fullscreen-fallback { position:fixed!important; inset:0; z-index:1000; width:100vw; height:100dvh; }
+.visual-fullscreen.is-expanded>.fullscreen-tools { flex:none; padding:0 0 12px; }
+.visual-fullscreen.is-expanded .orbit-map-panel { display:flex; flex:1; flex-direction:column; min-height:0; }
+.visual-fullscreen.is-expanded .orbit-earth { flex:1; min-height:200px; height:calc(100dvh - 185px); width:100%; max-height:none; }
+.visual-fullscreen.is-expanded .map-viewport { flex:1; min-height:0; }
+.visual-fullscreen.is-expanded .map-viewport>svg { height:100%; max-height:calc(100dvh - 260px); }
+.visual-fullscreen.is-expanded .map-city-shortcuts { max-height:65px; overflow:auto; }
+.visual-fullscreen.is-expanded.orbit-history-chart svg { flex:1; max-height:none; height:calc(100dvh - 130px); min-height:220px; }
+.connection-city-picker { display:grid; gap:9px; margin-block:18px; font-size:13px; }
+
 :root[data-theme=light] { --app-shadow: 0 12px 32px #1829400b; --app-soft-shadow: 0 5px 18px #18294007; }
 html { scrollbar-gutter:stable; }
 .material-icon { fill: currentColor; stroke: none; vertical-align: middle; flex-shrink: 0; }
@@ -126,3 +141,17 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea {
 }
 @media(max-width:400px) { .navigation-header .account-link>span { display: none; } .navigation-header .account-link { width: 35px; padding: 0; justify-content: center; } .navigation-header .brand { gap: 6px; } .navigation-header .brand>span { font-size: 18px; } }
 @media(prefers-reduced-motion:reduce) { .navigation-header .mega-menu { transition: none; } .mega-feature-card,.mega-feature-photo>img,.mega-links .mega-link-card,.desktop-section-trigger>.material-icon { transition: none; } }
+
+/* Keep the category navigation visible as a second row when browser zoom reduces width. */
+@media(min-width:761px) and (max-width:1240px) {
+ .navigation-header { height:auto; min-height:116px; }
+ .navigation-header>.header-inner { flex-wrap:wrap; gap:4px 16px; padding-block:10px; }
+ .navigation-header .brand { margin-right:auto; }
+ .navigation-header .desktop-nav { display:flex; order:3; width:100%; flex-basis:100%; margin:0; justify-content:space-between; gap:2px; }
+ .navigation-header .navigation-group[data-section=home] { display:none; }
+ .navigation-header .desktop-section-trigger { font-size:12px; padding:7px; min-height:36px; }
+ .navigation-header .mobile-menu-button { display:none; }
+ .navigation-header .nav-popover-bridge,.navigation-header .mega-menu { display:block; }
+ .navigation-header .nav-popover-bridge { width:calc(100% - 32px); }
+ .section-navigation { top:116px; }
+}

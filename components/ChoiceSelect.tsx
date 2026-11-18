@@ -21,7 +21,11 @@ export default function ChoiceSelect({value,onValueChange,options,id,name,disabl
   const trigger=useRef<HTMLButtonElement>(null);
   const [container,setContainer]=useState<HTMLElement|null>(null);
   // Keep portalled options in the active native dialog's top layer, if any.
-  useEffect(()=>{setContainer(trigger.current?.closest('dialog')??document.body);},[]);
+  useEffect(()=>{
+    const sync=()=>setContainer(trigger.current?.closest('dialog')??(document.fullscreenElement?.contains(trigger.current)?document.fullscreenElement as HTMLElement:document.body));
+    sync();document.addEventListener('fullscreenchange',sync);
+    return()=>document.removeEventListener('fullscreenchange',sync);
+  },[]);
   const selected=options.find(option=>option.value===value);
   return <span className={`choice-select ${className}`}>
     <Select.Root value={value} onValueChange={onValueChange} name={name} disabled={disabled} required={required}>

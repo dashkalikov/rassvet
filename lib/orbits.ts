@@ -98,3 +98,22 @@ export function climbRate(samples:OrbitSample[]):number|null{
  const den=xs.reduce((s,x)=>s+(x-mx)**2,0);if(!den)return null;
  return Math.round(xs.reduce((s,x,i)=>s+(x-mx)*(ys[i]-my),0)/den*1000)/1000;
 }
+
+/** The input is sorted by element epoch. An empty span in the archive stays empty on the chart. */
+export function splitOrbitSamples(samples:readonly OrbitSample[]):OrbitSample[][]{
+ const segments:OrbitSample[][]=[];
+ for(const sample of samples){
+  const current=segments.at(-1);
+  const previous=current?.at(-1);
+  if(current&&previous&&Date.parse(sample.epoch)-Date.parse(previous.epoch)<=2*DAY)current.push(sample);
+  else segments.push([sample]);
+ }
+ return segments;
+}
+
+/** Surface visibility cone for a spherical Earth; elevation is measured above the horizon. */
+export function visibilityRadiusDeg(altKm:number,elevationDeg:number):number{
+ if(!Number.isFinite(altKm)||!Number.isFinite(elevationDeg)||altKm<=0)return 0;
+ const elevation=Math.max(0,Math.min(90,elevationDeg))*Math.PI/180;
+ return Math.max(0,(Math.acos(RE/(RE+altKm)*Math.cos(elevation))-elevation)*180/Math.PI);
+}

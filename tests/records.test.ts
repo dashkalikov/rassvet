@@ -4,6 +4,16 @@ import assert from 'node:assert/strict';
 import { createRecords } from '../lib/records.ts';
 
 function fixture() { const f=databaseFixture(); return {...f,alice:createRecords(f.db,'alice'),bob:createRecords(f.db,'bob')}; }
+test('a customer can activate their own demo subscription once with an audited transition',async()=>{
+  const f=fixture();try{
+    const order=await f.alice.addOrder({plan:'travel',billing:'monthly',address:'Владивосток, ул. Мира, 7'});
+    assert.equal(await f.bob.activateOrder(order.id),null);
+    assert.equal((await f.alice.activateOrder(order.id))?.status,'active');
+    assert.equal(await f.alice.activateOrder(order.id),null);
+    assert.equal(await f.alice.cancelOrder(order.id),false);
+    assert.deepEqual(f.sqlite.prepare('SELECT status FROM subscription_events WHERE order_id=? ORDER BY id').all(order.id).map(row=>row.status),['new','active']);
+  }finally{f.close();}
+});
 test('saved orders keep canonical price and never appear in another account', async () => {
   const f = fixture(); try {
     const order = await f.alice.addOrder({plan:'home',billing:'monthly',address:'Москва, учебная улица, 1',price:1,userId:'bob'});

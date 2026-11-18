@@ -10,7 +10,7 @@ export function loadTsx(file:URL):unknown{
   const key=target.href;if(cache.has(key))return cache.get(key)!.exports;
   const require=createRequire(target);
   if(target.pathname.endsWith('.json'))return require(fileURLToPath(target));
-  const module={exports:{} as unknown};cache.set(key,module);
+  const testModule={exports:{} as unknown};cache.set(key,testModule);
   const {outputText}=ts.transpileModule(readFileSync(target,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true,target:ts.ScriptTarget.ES2022}});
   const localRequire=(specifier:string)=>{
    if(!specifier.startsWith('.'))return require(specifier);
@@ -18,7 +18,7 @@ export function loadTsx(file:URL):unknown{
    if(!candidate)throw new Error('Missing module '+specifier+' from '+key);
    return load(candidate);
   };
-  new Function('require','module','exports',outputText)(localRequire,module,module.exports);return module.exports;
+  new Function('require','module','exports',outputText)(localRequire,testModule,testModule.exports);return testModule.exports;
  }
  return load(file);
 }

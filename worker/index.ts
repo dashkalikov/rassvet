@@ -1,9 +1,12 @@
 import handler from "vinext/server/fetch-handler";
 import { runWithConnectorBinding } from "../lib/connector-context";
 import type { ConnectorBinding } from "../lib/connector-contract.mjs";
+import { drizzle } from 'drizzle-orm/d1';
+import * as schema from '../db/schema';
+import {recordRequest} from '../lib/operations';
 
 const worker = {
-  fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
+  async fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and
     // the auxiliary service binding are absent from production builds.
@@ -23,7 +26,18 @@ const worker = {
         },
       };
     }
-    return runWithConnectorBinding(binding, () => handler.fetch(request, env, ctx));
+    const path=new URL(request.url).pathname;
+    const database=env.DB;
+    const measure=/^\/api\/(auth|orders|profile|tickets|account|orbits)(\/|$)/.test(path);
+    const started=performance.now();
+    let status=500;
+    try {
+      const response=await runWithConnectorBinding(binding, () => handler.fetch(request, env, ctx));
+      status=response.status;
+      return response;
+    } finally {
+      if(measure&&database)ctx.waitUntil(recordRequest(drizzle(database,{schema}),status,performance.now()-started).catch(()=>{}));
+    }
   },
 };
 

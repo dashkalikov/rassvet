@@ -2,6 +2,7 @@ import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { and, eq, gt, sql } from 'drizzle-orm';
 import * as schema from '../db/schema.ts';
 import {assessPassword} from './password-policy.ts';
+import {canAccessPortal,readRole,type Role} from './operations-policy.ts';
 export class AuthError extends Error { status: number; constructor(message:string,status=400) { super(message); this.status=status; } }
 const encoder=new TextEncoder();
 const hex=(bytes:Uint8Array)=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
@@ -31,12 +32,20 @@ function credentials(input:unknown) {
   if(password.length<10||password.length>128)throw new AuthError('Пароль должен содержать от 10 до 128 символов');
   return {data,email,password};
 }
-export type AppUser={userId:string;name:string;email:string;avatar?:string};
+export type AppUser={userId:string;name:string;email:string;role:Role;avatar?:string};
 export function createAuth(db:DrizzleD1Database<typeof schema>) {
-  const {accounts,sessions,authAttempts}=schema;
-  async function session(user:AppUser,remember=false) {
+  const {accounts,sessions,authAttempts,accountAccess}=schema;
+  async function session(user:AppUser,passwordHash:string,remember=false) {
     const token=random(32),expiresAt=Date.now()+(remember?30:1)*86400000;
-    await db.insert(sessions).values({tokenHash:await digest(token),userId:user.userId,expiresAt});
+    const tokenHash=await digest(token);
+    const inserted=await db.all<{token_hash:string}>(sql`
+      INSERT INTO sessions (token_hash,user_id,expires_at)
+      SELECT ${tokenHash}, accounts.id, ${expiresAt} FROM accounts
+      LEFT JOIN account_access ON account_access.user_id=accounts.id
+      WHERE accounts.id=${user.userId} AND coalesce(account_access.blocked,0)=0
+        AND coalesce(account_access.role,'customer')=${user.role} AND accounts.password_hash=${passwordHash}
+      RETURNING token_hash`);
+    if(!inserted.length)throw new AuthError('Доступ к аккаунту изменился. Повторите вход.',403);
     return {user,token,expiresAt};
   }
   async function noteAttempt(email:string) {
@@ -65,10 +74,16 @@ export function createAuth(db:DrizzleD1Database<typeof schema>) {
       const tokenHash=await digest(currentToken);
       const current=await db.select().from(sessions).where(and(eq(sessions.tokenHash,tokenHash),eq(sessions.userId,userId),gt(sessions.expiresAt,Date.now()))).get();
       if(!current)throw new AuthError('Войдите в аккаунт ещё раз',401);
-      await db.batch([
-        db.update(accounts).set({passwordHash:await hashPassword(password)}).where(eq(accounts.id,account.id)),
-        db.delete(sessions).where(and(eq(sessions.userId,userId),sql`${sessions.tokenHash} <> ${tokenHash}`)),
+      const passwordHash=await hashPassword(password);
+      const [updated]=await db.batch([
+        db.update(accounts).set({passwordHash}).where(and(
+          eq(accounts.id,account.id),eq(accounts.passwordHash,account.passwordHash),
+          sql`EXISTS (SELECT 1 FROM sessions WHERE token_hash=${tokenHash} AND user_id=${userId} AND expires_at>${Date.now()})`,
+        )).returning({id:accounts.id}),
+        db.delete(sessions).where(and(eq(sessions.userId,userId),sql`${sessions.tokenHash} <> ${tokenHash}
+          AND EXISTS (SELECT 1 FROM accounts WHERE id=${userId} AND password_hash=${passwordHash})`)),
       ]);
+      if(!updated.length)throw new AuthError('Доступ к аккаунту изменился. Повторите вход.',401);
       return {ok:true};
     },
     async register(input:unknown) {
@@ -78,24 +93,30 @@ export function createAuth(db:DrizzleD1Database<typeof schema>) {
       if(name.length<2||name.length>80)throw new AuthError('Укажите имя: от 2 до 80 символов');
       if(data.confirmPassword!==undefined&&password!==data.confirmPassword)throw new AuthError('Пароли не совпадают');
       await noteAttempt(`register:${email}`);
-      const user={userId:crypto.randomUUID(),name,email};
-      const inserted=await db.insert(accounts).values({id:user.userId,name,email,passwordHash:await hashPassword(password),createdAt:new Date().toISOString()}).onConflictDoNothing({target:accounts.email}).returning({id:accounts.id});
+      const user:AppUser={userId:crypto.randomUUID(),name,email,role:'customer'};
+      const passwordHash=await hashPassword(password);
+      const inserted=await db.insert(accounts).values({id:user.userId,name,email,passwordHash,createdAt:new Date().toISOString()}).onConflictDoNothing({target:accounts.email}).returning({id:accounts.id});
       if(!inserted.length)throw new AuthError('Эта почта уже зарегистрирована. Войдите в аккаунт.',409);
-      return session(user,data.remember===true);
+      return session(user,passwordHash,data.remember===true);
     },
-    async login(input:unknown) {
+    async login(input:unknown,portal:Role='customer') {
       const {data,email,password}=credentials(input);const key=await noteAttempt(email);
       const user=await db.select().from(accounts).where(eq(accounts.email,email)).get();
       // Unknown users also perform a KDF to avoid a cheap account-existence timing signal.
       const valid=await verifyPassword(password,user?.passwordHash??'pbkdf2-sha256$100000$00000000000000000000000000000000$0000000000000000000000000000000000000000000000000000000000000000');
       if(!user||!valid)throw new AuthError('Неверная почта или пароль',401);
       await db.delete(authAttempts).where(eq(authAttempts.key,key));
-      return session({userId:user.id,name:user.name,email:user.email},data.remember===true);
+      const access=await db.select().from(accountAccess).where(eq(accountAccess.userId,user.id)).get();
+      const role=readRole(access?.role??'customer');
+      if(access?.blocked)throw new AuthError('Аккаунт заблокирован. Обратитесь к администратору.',403);
+      if(!role||!canAccessPortal(role,portal))throw new AuthError('Для этого кабинета нужна учётная запись с соответствующей ролью.',403);
+      return session({userId:user.id,name:user.name,email:user.email,role},user.passwordHash,data.remember===true&&role==='customer');
     },
     async resolve(token:string,now=Date.now()):Promise<AppUser|null> {
       if(!/^[a-f0-9]{64}$/.test(token))return null;
-      const user=await db.select({userId:accounts.id,name:sql<string>`coalesce(${schema.profiles.name}, ${accounts.name})`,email:accounts.email,avatar:sql<string>`coalesce(${schema.profiles.avatar}, '')`}).from(sessions).innerJoin(accounts,eq(sessions.userId,accounts.id)).leftJoin(schema.profiles,eq(schema.profiles.userId,accounts.id)).where(and(eq(sessions.tokenHash,await digest(token)),gt(sessions.expiresAt,now))).get();
-      return user??null;
+      const user=await db.select({userId:accounts.id,name:sql<string>`coalesce(${schema.profiles.name}, ${accounts.name})`,email:accounts.email,avatar:sql<string>`coalesce(${schema.profiles.avatar}, '')`,role:sql<string>`coalesce(${accountAccess.role}, 'customer')`}).from(sessions).innerJoin(accounts,eq(sessions.userId,accounts.id)).leftJoin(schema.profiles,eq(schema.profiles.userId,accounts.id)).leftJoin(accountAccess,eq(accountAccess.userId,accounts.id)).where(and(eq(sessions.tokenHash,await digest(token)),gt(sessions.expiresAt,now),sql`coalesce(${accountAccess.blocked},0)=0`)).get();
+      const role=readRole(user?.role);
+      return user&&role?{...user,role}:null;
     },
     async logout(token:string) {if(token)await db.delete(sessions).where(eq(sessions.tokenHash,await digest(token)));},
   };

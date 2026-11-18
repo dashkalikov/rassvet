@@ -1,6 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseOrbitCatalog,createOrbitModel,orbitPosition,orbitTrack,mergeOrbitHistory,climbRate} from '../lib/orbits.ts';
+import {parseOrbitCatalog,createOrbitModel,orbitPosition,orbitTrack,mergeOrbitHistory,climbRate,splitOrbitSamples} from '../lib/orbits.ts';
+
+test('an orbit chart breaks its line across gaps longer than two days',()=>{
+ const samples=['2026-10-18','2026-10-20','2026-11-03'].map((date,i)=>({
+  epoch:date+'T12:00:00.000Z',semiMajorAxisKm:6878+i,
+ }));
+ assert.deepEqual(splitOrbitSamples(samples),[samples.slice(0,2),samples.slice(2)]);
+ assert.deepEqual(splitOrbitSamples([]),[]);
+});
 
 // Vallado SGP4 verification satellite 00005, at its element epoch.
 const tle=`VANGUARD 1

@@ -1,6 +1,7 @@
 import { getCurrentUser } from './session';
 import { AuthError } from './auth-core';
 import {HttpError,assertSameOrigin} from './request';
+import type {Role} from './operations-policy';
 export {HttpError,assertSameOrigin,readJson} from './request';
 export async function authenticated(request?: Request) {
   const user = await getCurrentUser();
@@ -8,6 +9,11 @@ export async function authenticated(request?: Request) {
   if (request && !['GET', 'HEAD'].includes(request.method)) {
     assertSameOrigin(request);
   }
+  return user;
+}
+export async function authorized(roles:readonly Role[],request?:Request){
+  const user=await authenticated(request);
+  if(!roles.includes(user.role))throw new HttpError('Недостаточно прав для этого раздела.',403);
   return user;
 }
 export function apiError(error: unknown) {

@@ -21,7 +21,7 @@ export function latencyMetrics(samples:readonly number[]):{ping:number;jitter:nu
  return {ping,jitter};
 }
 export function pickSpeedtestPlan(orders:readonly PlanOrder[]):{plan:PlanId;orderId:string}|null{
- const order=orders.filter(order=>order.status==='new'&&PLANS.some(plan=>plan.id===order.plan)&&Number.isFinite(Date.parse(order.createdAt))).toSorted((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt))[0];
+ const order=orders.filter(order=>['new','active'].includes(order.status)&&PLANS.some(plan=>plan.id===order.plan)&&Number.isFinite(Date.parse(order.createdAt))).toSorted((a,b)=>Number(b.status==='active')-Number(a.status==='active')||Date.parse(b.createdAt)-Date.parse(a.createdAt))[0];
  return order?{plan:order.plan as PlanId,orderId:order.id}:null;
 }
 export const SPEED_CONDITIONS=[{id:'clear',name:'Открытое небо',description:'Спокойная нагрузка и свободный обзор'},{id:'busy',name:'Вечерняя нагрузка',description:'Больше одновременных подключений'},{id:'obstructed',name:'Помехи и препятствия',description:'Условное ухудшение приёма'}] as const;

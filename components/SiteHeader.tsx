@@ -4,6 +4,7 @@ import {usePathname} from 'next/navigation';
 import {useEffect,useRef,useState,type KeyboardEvent,type PointerEvent,type CSSProperties} from 'react';
 import {Brand,Login,type User} from './ui';
 import ThemeToggle from './ThemeToggle';
+import PortalSwitcher from './PortalSwitcher';
 import UserAvatar from './UserAvatar';
 import MaterialIcon from './MaterialIcon';
 import {SITE_NAVIGATION} from '../lib/site-navigation';
@@ -22,13 +23,13 @@ export default function SiteHeader({user}:{user:User|null}){
  const featured=selected?.items.filter(item=>navigationVisual(item.href).image)??[];
  const quick=selected?.items.filter(item=>!navigationVisual(item.href).image)??[];
  function close(){hover.hide();setMenu(false);focusFirst.current=false;}
- useEffect(()=>{close();},[pathname]);
+ useEffect(()=>{const frame=requestAnimationFrame(close);return()=>cancelAnimationFrame(frame);},[pathname]);
  useEffect(()=>()=>{hover.dispose();presence.dispose();},[hover,presence]);
  useEffect(()=>{
   if(open&&panel.id===open&&panel.phase==='open'&&focusFirst.current){focusFirst.current=false;root.current?.querySelector<HTMLAnchorElement>('.mega-menu a')?.focus();}
  },[open,panel]);
  useEffect(()=>{
-  const media=window.matchMedia('(min-width:1241px)');
+  const media=window.matchMedia('(min-width:761px)');
   const changed=()=>{hover.hide();presence.clear();setMenu(false);focusFirst.current=false;};
   media.addEventListener('change',changed);return()=>media.removeEventListener('change',changed);
  },[hover,presence]);
@@ -44,7 +45,7 @@ export default function SiteHeader({user}:{user:User|null}){
  },[hover]);
  function enter(event:PointerEvent<HTMLDivElement>,id:string,hasChildren:boolean){
   if(event.pointerType!=='mouse'&&event.pointerType!=='pen')return;
-  if(!window.matchMedia('(min-width:1241px)').matches)return;
+  if(!window.matchMedia('(min-width:761px)').matches)return;
   if(!hasChildren){hover.hide();return;}
   trigger.current=event.currentTarget.querySelector('button');focusFirst.current=false;setMenu(false);hover.show(id);
  }
@@ -64,7 +65,7 @@ export default function SiteHeader({user}:{user:User|null}){
       {item.items.length?<button className="desktop-section-trigger" type="button" aria-expanded={open===item.id} aria-controls={`submenu-${item.id}`} data-current={active(item.href)||undefined} onClick={event=>toggle(item.id,event.currentTarget)} onKeyDown={event=>keyboard(event,item.id)}>{item.title}<MaterialIcon name="expand_more" size={17}/></button>:<Link href={item.href} onClick={close} aria-current={active(item.href)?'page':undefined}>{item.title}</Link>}
      </div>)}
     </nav>
-    <div className="header-actions"><ThemeToggle/>{user?<Link className="account-link" href="/account" onClick={close}><UserAvatar name={user.name} src={user.avatar}/><span>Мой кабинет</span></Link>:<button className="account-link" onClick={()=>{close();setLogin(true);}}><MaterialIcon name="person" size={20}/><span>Войти</span></button>}<button type="button" className="mobile-menu-button" aria-label={menu?'Закрыть меню':'Открыть меню'} aria-expanded={menu} aria-controls="rassvet-mobile-menu" onClick={()=>{hover.hide();setMenu(value=>!value);}}><MaterialIcon name={menu?'close':'menu'} size={25}/></button></div>
+    <div className="header-actions"><ThemeToggle/>{user?.role==='admin'?<PortalSwitcher current="customer"/>:user?<Link className="account-link" href="/account" onClick={close}><UserAvatar name={user.name} src={user.avatar}/><span>Мой кабинет</span></Link>:<button className="account-link" onClick={()=>{close();setLogin(true);}}><MaterialIcon name="person" size={20}/><span>Войти</span></button>}<button type="button" className="mobile-menu-button" aria-label={menu?'Закрыть меню':'Открыть меню'} aria-expanded={menu} aria-controls="rassvet-mobile-menu" onClick={()=>{hover.hide();setMenu(value=>!value);}}><MaterialIcon name={menu?'close':'menu'} size={25}/></button></div>
    </div>
    {!menu&&selected&&<div className="nav-popover-bridge" data-state={panel.phase} style={{'--menu-fade-duration':`${MENU_FADE_MS}ms`} as CSSProperties} onPointerEnter={()=>{hover.hold();if(open===null&&panel.phase==='closing')hover.show(selected.id);}}><section className={`mega-menu nav-panel-${selected.id} ${selected.items.length<=3?'is-compact':''}`} key={selected.id} id={`submenu-${selected.id}`} aria-label={selected.title} aria-hidden={panel.phase==='closing'} inert={panel.phase==='closing'}>
     <div className="mega-menu-toolbar"><p>{selected.description}</p><Link href={selected.href} onClick={close} className="text-link" aria-label={selected.title+': открыть раздел'}>Открыть раздел <MaterialIcon name="arrow_forward" size={18}/></Link></div>

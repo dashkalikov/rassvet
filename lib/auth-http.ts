@@ -3,11 +3,15 @@ import { getDb } from '../db';
 import { createAuth } from './auth-core';
 import { assertSameOrigin,readJson,apiError } from './api';
 import { SESSION_COOKIE,sessionCookie } from './session';
+import {readRole} from './operations-policy';
+import {HttpError} from './request';
 export async function authenticateRequest(request:Request,mode:'register'|'login') {
   try {
     assertSameOrigin(request);
     const auth=createAuth(getDb());const input=await readJson(request);
-    const result=mode==='register'?await auth.register(input):await auth.login(input);
+    const portal=input.portal===undefined?'customer':readRole(input.portal);
+    if(!portal)throw new HttpError('Выберите тип входа',400);
+    const result=mode==='register'?await auth.register(input):await auth.login(input,portal);
     return Response.json({user:result.user},{status:mode==='register'?201:200,headers:{'Set-Cookie':sessionCookie(result.token,request,result.expiresAt),'Cache-Control':'no-store'}});
   }catch(e){return apiError(e);}
 }

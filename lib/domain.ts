@@ -1,4 +1,5 @@
 import {quoteEquipment} from './equipment.ts';
+import {CONNECTION_CITIES} from './connection-cities.ts';
 export const PLANS = [
   { id: 'home', name: 'РАССВЕТ Дом', short: 'Дом', description: 'Для жизни за городом без компромиссов', price: 2900, equipment: 24900, speed: 150, traffic: 'Безлимитный', icon: 'home', features: ['До 150 Мбит/с', 'Безлимитный трафик', 'Wi-Fi роутер в комплекте', 'Подключение своими силами'] },
   { id: 'travel', name: 'РАССВЕТ В пути', short: 'В пути', description: 'Свобода менять координаты', price: 4900, equipment: 24900, speed: 250, traffic: '100 ГБ приоритетного', icon: 'travel', features: ['До 250 Мбит/с', '100 ГБ приоритетного трафика', 'Работает на стоянках', 'Приостановка подписки'] },
@@ -36,8 +37,7 @@ export function checkCoverage(value: string) {
   const address = text(value);
   if (address.length < 3 || address.length > 300) throw new Error('Введите адрес или название города');
   const normalized = address.toLocaleLowerCase('ru');
-  if (['москва', 'московск', 'санкт-петербург', 'ленинградск', 'казань', 'татарстан', 'нижний новгород', 'екатеринбург', 'сочи', 'краснодар', 'новосибирск'].some(city => normalized.includes(city))) return { status: 'available' as const, title: 'Вы в зоне будущего подключения', description: 'В учебной карте этот регион доступен. Можно оформить демонстрационную заявку.' };
-  if (['владивосток', 'камчат', 'якутск', 'сахалин', 'хабаровск', 'магадан', 'петропавловск'].some(city => normalized.includes(city))) return { status: 'planned' as const, title: 'Новая территория на горизонте', description: 'В учебной модели этот регион запланирован для следующего этапа. Оставьте заявку на уведомление.' };
+  if ([...CONNECTION_CITIES,'московск','ленинградск','татарстан'].some(city => normalized.includes(city.toLocaleLowerCase('ru')))) return { status: 'available' as const, title: 'Учебная подписка доступна', description: 'Оформите заявку и активируйте подписку в личном кабинете. Реальное подключение и оплата не выполняются.' };
   return { status: 'unknown' as const, title: 'Уточним возможность подключения', description: 'Этого адреса пока нет в учебной карте. Отправьте заявку — она сохранится в личном кабинете.' };
 }
 export function validateTicket(value: unknown) {
