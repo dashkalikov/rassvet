@@ -83,7 +83,7 @@
   .hero-product-grid[data-active] { grid-template-columns: minmax(0,1fr); --hero-detail-width: 100%; --hero-card-padding: 20px; }
   .hero-product-grid .hero-product-card,
   .hero-product-grid .hero-product-card.selected { padding-bottom: 52px; }
-  .hero-product-grid .hero-product-card>p { font-size: 14px; line-height: 1.7; min-block-size: 2lh; max-width: none; }
+  .hero-product-grid .hero-product-card>p { font-size: var(--font-body); line-height: 1.7; min-block-size: 2lh; max-width: none; }
   .hero-product-grid .hero-product-card .hero-product-select h2 { font-size: 24px; }
   .hero-product-grid .hero-product-card .hero-product-select>span { display: block; }
   .hero-card-details { grid-template-rows: 0fr; transition: grid-template-rows var(--hero-duration) var(--hero-ease),opacity 250ms ease,visibility 0s 250ms; }

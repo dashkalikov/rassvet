@@ -1,0 +1,30 @@
+/* Shared readable text sizes, including compact and mobile layouts. */
+:root {
+  --font-body: 1.0625rem;
+  --font-ui: 1rem;
+  --font-table: .9375rem;
+  --font-caption: .875rem;
+}
+
+body { font-size: var(--font-body); }
+
+/* Give longer labels room to wrap as their text grows. */
+.card-actions,.wizard-actions,.modal-actions,.orbit-map-legend { flex-wrap: wrap; }
+.card-actions>.button,.wizard-actions>.button,.modal-actions>.button { white-space: normal; text-align: center; }
+.ops-actions,.settings-form-actions { flex-wrap: wrap; }
+.hero-description,.account-intro,.plan-description,.hub-card p,.equipment-card-content>p,
+.settings-panel-heading p,.ops-title p,.ops-panel p { line-height: 1.65; }
+.hero-footnote { max-width: min(100%,340px); line-height: 1.5; }
+.hero-footer .hero-footnote { max-width: none; }
+.account-order-bottom,.engineering-series-list li { flex-wrap: wrap; }
+.account-stat-grid small,.ops-customer-id { overflow-wrap: anywhere; }
+.ops-legend { flex-wrap: wrap; }
+.mega-menu-toolbar { flex-wrap: wrap; }
+.ops-table-wrap,.table-scroll { overflow-x: auto; }
+.engineering-history-svg text { font-size: 14px; }
+
+@media(max-width:760px) {
+  .account-subheading,.tool-heading { flex-wrap: wrap; gap: 14px; }
+  .settings-form-actions>.button,.settings-form-actions>.subtle-button { min-height: 44px; }
+  .settings-form-actions>.button,.card-actions>.button { max-width: 100%; }
+}

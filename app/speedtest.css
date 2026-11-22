@@ -1,14 +1,14 @@
 /* Connection diagnostics: restrained surfaces, a large meter and clear hierarchy. */
 .speed-page-intro { padding-top: 33px; padding-bottom: 36px; }
-.speed-page-intro .breadcrumbs { margin-bottom: 42px; font-size: 12px; }
+.speed-page-intro .breadcrumbs { margin-bottom: 42px; font-size: var(--font-caption); }
 .speed-intro-body { display: grid; grid-template-columns: 1.1fr 1fr; align-items: end; gap: 50px; }
-.speed-intro-body .eyebrow { font-size: 10px; letter-spacing: .11em; }
+.speed-intro-body .eyebrow { font-size: var(--font-caption); letter-spacing: .11em; }
 .speed-intro-body h1 { font-size: clamp(48px,5.7vw,78px); line-height: 1.02; letter-spacing: -.065em; font-weight: 550; margin-top: 25px; }
 .speed-intro-body h1>span { font-weight: 350; }
 .speed-intro-copy { padding-bottom: 7px; max-width: 470px; }
-.speed-intro-copy>p { font-size: 16px; line-height: 1.85; }
+.speed-intro-copy>p { font-size: var(--font-body); line-height: 1.85; }
 .speed-intro-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 23px; }
-.speed-intro-tags>span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 30px; font-size: 11px; }
+.speed-intro-tags>span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 30px; font-size: var(--font-body); }
 .speed-intro-tags svg { stroke-width: 1.5; }
 .speedtest-page { padding-top: 0; }
 .speed-mode-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 7px; margin-bottom: 24px; background: var(--surface-raised); border: 1px solid var(--line); border-radius: 21px; }
@@ -17,39 +17,39 @@
 .speed-mode-icon { width: 44px; height: 44px; border-radius: 13px; background: var(--accent-wash); border: 1px solid var(--line); display: grid; place-items: center; flex-shrink: 0; }
 .speed-mode-icon>svg { stroke-width: 1.5; }
 .speed-mode-selector b { display: block; font-size: 17px; font-weight: 550; letter-spacing: -.015em; }
-.speed-mode-selector small { display: block; font-size: 12px; margin-top: 5px; line-height: 1.7; }
+.speed-mode-selector small { display: block; font-size: var(--font-caption); margin-top: 5px; line-height: 1.7; }
 .speed-mode-mark { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; margin-left: auto; flex-shrink: 0; }
 .speed-mode-selector>button[aria-pressed=true] .speed-mode-mark { border: 1px solid var(--accent); background: var(--accent-wash); }
 .speed-workspace { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(310px,.85fr); gap: 24px; align-items: start; scroll-margin-top: 112px; }
 .speed-controls,.speed-console { border: 1px solid var(--line); background: var(--surface); border-radius: 23px; min-width: 0; }
 .speed-controls { order: 2; padding: 30px 27px; scroll-margin-top: 112px; }
-.speed-controls>.eyebrow { font-size: 9px; }
+.speed-controls>.eyebrow { font-size: var(--font-caption); }
 .speed-controls>h2 { font-size: 29px; line-height: 1.18; font-weight: 500; margin: 22px 0 27px; max-width: 280px; }
-.speed-controls label { font-size: 12px; margin: 22px 0 0; }
-.speed-controls select { font-size: 12px; width: 100%; min-height: 48px; margin-top: 10px; border-radius: 10px; padding: 12px; }
-.speed-context { font-size: 12px; line-height: 1.9; margin-top: 18px; }
+.speed-controls label { font-size: var(--font-ui); margin: 22px 0 0; }
+.speed-controls select { font-size: var(--font-ui); width: 100%; min-height: 48px; margin-top: 10px; border-radius: 10px; padding: 12px; }
+.speed-context { font-size: var(--font-body); line-height: 1.9; margin-top: 18px; }
 .speed-account { display: flex; align-items: flex-start; gap: 13px; padding: 22px 0; margin-top: 23px; border-block: 1px solid var(--line); }
 .speed-account>svg { margin-top: 3px; flex-shrink: 0; stroke-width: 1.4; }
 .speed-account h3 { font-size: 15px; letter-spacing: -.015em; line-height: 1.5; }
-.speed-account p { font-size: 12px; line-height: 1.9; margin-top: 8px; }
-.speed-account .text-link { font-size: 12px; margin-top: 14px; gap: 12px; }
-.speed-order-link { display: block; font-size: 11px; margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.speed-account p { font-size: var(--font-body); line-height: 1.9; margin-top: 8px; }
+.speed-account .text-link { font-size: var(--font-ui); margin-top: 14px; gap: 12px; }
+.speed-order-link { display: block; font-size: var(--font-body); margin-top: 12px; text-decoration: underline; text-underline-offset: 4px; }
 .speed-mode-note { padding: 20px 18px; margin-top: 24px; background: var(--surface-raised); border-radius: 13px; border: 1px solid var(--line); }
-.speed-mode-note .eyebrow { font-size: 9px; }
-.speed-mode-note p { font-size: 11px; line-height: 1.9; margin-top: 12px; }
-.speed-mode-note>a { font-size: 10px; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; text-underline-offset: 3px; }
+.speed-mode-note .eyebrow { font-size: var(--font-caption); }
+.speed-mode-note p { font-size: var(--font-body); line-height: 1.9; margin-top: 12px; }
+.speed-mode-note>a { font-size: var(--font-body); text-decoration: underline; display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; text-underline-offset: 3px; }
 .speed-mode-note.model { border-style: dashed; }
 .speed-console { order: 1; padding: 30px 32px; box-shadow: 0 14px 45px var(--shadow); }
 .speed-console-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
 .speed-console-top>div { min-width: 0; flex: 1; }
 .speed-console-top h2 { font-size: 21px; letter-spacing: -.025em; line-height: 1.3; margin-top: 11px; }
-.speed-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 9px; letter-spacing: .08em; }
+.speed-badge { display: inline-flex; align-items: center; gap: 7px; font-size: var(--font-caption); letter-spacing: .08em; }
 .speed-badge i { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
 .speed-badge.model i { border-radius: 0; transform: rotate(45deg); }
-.speed-reference { display: flex; align-items: center; gap: 9px; font-size: 12px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px; white-space: nowrap; background: var(--surface-raised); flex-shrink: 0; }
+.speed-reference { display: flex; align-items: center; gap: 9px; font-size: var(--font-body); padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px; white-space: nowrap; background: var(--surface-raised); flex-shrink: 0; }
 .speed-reference:hover { border-color: var(--accent); }
 .speed-reference>svg { flex-shrink: 0; stroke-width: 1.4; }
-.speed-reference small { display: block; font-size: 10px; margin-top: 4px; }
+.speed-reference small { display: block; font-size: var(--font-caption); margin-top: 4px; }
 .speed-reference>svg:last-child { width: 13px; }
 .speed-meter-surface { isolation: isolate; position: relative; margin-top: 12px; }
 .speed-meter-surface::before { content: ''; position: absolute; inset: 8% 17% 0; border-radius: 50%; background: radial-gradient(ellipse,var(--accent-wash),transparent 68%); z-index: -1; pointer-events: none; }
@@ -62,83 +62,83 @@
 .speed-gauge-track { stroke: var(--line); stroke-width: 9; }
 .speed-gauge-fill { stroke-width: 9; transition: stroke-dasharray .45s ease; }
 .speed-gauge .speed-gauge-dot { fill: var(--surface); stroke: var(--accent-strong); stroke-width: 2px; transform-origin: 150px 145px; transition: transform .45s ease; }
-.speed-gauge svg text { font-family: var(--font); font-size: 9px; fill: var(--text); }
+.speed-gauge svg text { font-family: var(--font); font-size: var(--font-caption); fill: var(--text); }
 .speed-gauge-value { position: absolute; inset: 37% 0 auto; text-align: center; pointer-events: none; }
 .speed-gauge-value>span { font-size: 9px; letter-spacing: .14em; }
 .speed-gauge-value>strong { display: block; font-size: clamp(49px,5vw,73px); font-weight: 450; letter-spacing: -.065em; line-height: 1.08; font-variant-numeric: tabular-nums; margin-top: 11px; }
 .speed-gauge-value>small { display: block; font-size: 12px; margin-top: 9px; }
-.speed-status { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; min-height: 24px; margin: -2px 0 14px; text-align: center; line-height: 1.8; }
+.speed-status { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: var(--font-body); min-height: 24px; margin: -2px 0 14px; text-align: center; line-height: 1.8; }
 .speed-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--line); flex-shrink: 0; }
 .speed-console.is-running .speed-status::before { background: var(--accent); animation: speed-signal 1.3s ease-in-out infinite; }
 .speed-start { display: flex; justify-content: center; }
-.speed-start>.button { min-width: 245px; min-height: 50px; font-size: 13px; border-radius: 30px; gap: 22px; padding-inline: 27px; }
+.speed-start>.button { min-width: 245px; min-height: 50px; font-size: var(--font-ui); border-radius: 30px; gap: 22px; padding-inline: 27px; }
 .speed-start>.button:hover { transform: translateY(-1px); }
 .speed-stages { display: flex; gap: 12px; padding: 0; list-style: none; margin: 30px 0 18px; }
-.speed-stages>li { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding-bottom: 12px; font-size: 11px; border-bottom: 1px solid var(--line); }
-.speed-stages li>span { width: 23px; height: 23px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; font-size: 9px; flex-shrink: 0; }
+.speed-stages>li { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding-bottom: 12px; font-size: var(--font-body); border-bottom: 1px solid var(--line); }
+.speed-stages li>span { width: 23px; height: 23px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; font-size: var(--font-body); flex-shrink: 0; }
 .speed-stages li.active,.speed-stages li.done { border-bottom-color: var(--accent); }
 .speed-stages li.active>span,.speed-stages li.done>span { border-color: var(--accent); background: var(--accent-wash); }
 .speed-stages li.active { font-weight: 600; }
-.speed-progress-caption { display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: 10px; margin-bottom: 10px; }
-.speed-progress-caption b { font-size: 10px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.speed-progress-caption { display: flex; align-items: center; justify-content: space-between; gap: 15px; font-size: var(--font-caption); margin-bottom: 10px; }
+.speed-progress-caption b { font-size: var(--font-caption); font-weight: 500; font-variant-numeric: tabular-nums; }
 .speed-progress { display: block; appearance: none; width: 100%; height: 4px; border: 0; background: var(--surface-raised); color: var(--accent-strong); border-radius: 3px; overflow: hidden; }
 .speed-progress::-webkit-progress-bar { background: var(--surface-raised); }
 .speed-progress::-webkit-progress-value { background: var(--accent-strong); transition: width .25s ease; }
 .speed-progress::-moz-progress-bar { background: var(--accent-strong); }
 .speed-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin-top: 26px; }
 .speed-metrics>article { min-width: 0; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-raised); padding: 15px 13px 17px; }
-.speed-metrics article>span { display: flex; align-items: center; gap: 7px; font-size: 10px; white-space: nowrap; }
+.speed-metrics article>span { display: flex; align-items: center; gap: 7px; font-size: var(--font-body); white-space: nowrap; }
 .speed-metrics article>span>i { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--accent-wash); flex-shrink: 0; }
 .speed-metrics strong { display: block; font-size: 31px; line-height: 1.2; font-weight: 450; letter-spacing: -.045em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; margin-top: 16px; }
-.speed-metrics small { display: block; font-size: 10px; margin-top: 7px; }
+.speed-metrics small { display: block; font-size: var(--font-caption); margin-top: 7px; }
 .speed-plot { position: relative; padding-top: 25px; margin-top: 27px; border-top: 1px solid var(--line); }
 .speed-plot>div { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
-.speed-caption { display: block; font-size: 8px; letter-spacing: .09em; margin-bottom: 9px; }
+.speed-caption { display: block; font-size: var(--font-caption); letter-spacing: .09em; margin-bottom: 9px; }
 .speed-plot h3 { font-size: 17px; letter-spacing: -.02em; }
-.speed-plot-legend { display: flex; align-items: center; gap: 6px; font-size: 10px; }
+.speed-plot-legend { display: flex; align-items: center; gap: 6px; font-size: var(--font-caption); }
 .speed-plot-legend i { width: 6px; height: 6px; background: var(--accent-strong); border-radius: 50%; }
 .speed-plot-legend i:nth-of-type(2) { background: #589dba; margin-left: 10px; }
 .speed-plot>svg { display: block; width: 100%; height: auto; }
-.speed-plot svg text { font-size: 10px; fill: var(--text); font-family: var(--font); }
+.speed-plot svg text { font-size: var(--font-caption); fill: var(--text); font-family: var(--font); }
 .speed-grid { stroke: var(--line); stroke-dasharray: 2 7; fill: none; }
 .speed-down-line,.speed-up-line { fill: none; stroke: var(--accent-strong); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .speed-up-line { stroke: #589dba; stroke-dasharray: 5 3; }
-.speed-plot>p { position: absolute; inset: 59% 15px auto; text-align: center; font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 9px; }
+.speed-plot>p { position: absolute; inset: 59% 15px auto; text-align: center; font-size: var(--font-body); display: flex; align-items: center; justify-content: center; gap: 9px; }
 .speed-plot>p>svg { stroke-width: 1.3; }
 .speed-result-note { display: flex; align-items: center; gap: 13px; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-raised); margin-top: 24px; padding: 17px; }
 .speed-result-icon { width: 35px; height: 35px; display: grid; place-items: center; background: var(--accent-wash); border-radius: 50%; flex-shrink: 0; }
 .speed-result-note>div { flex: 1; min-width: 170px; }
-.speed-result-note b { font-size: 12px; font-weight: 550; line-height: 1.8; }
-.speed-result-note p { font-size: 10px; line-height: 1.9; margin-top: 4px; }
-.speed-result-note .button { min-height: 38px; border-radius: 20px; font-size: 11px; gap: 10px; padding: 8px 12px; }
+.speed-result-note b { font-size: var(--font-body); font-weight: 550; line-height: 1.8; }
+.speed-result-note p { font-size: var(--font-body); line-height: 1.9; margin-top: 4px; }
+.speed-result-note .button { min-height: 38px; border-radius: 20px; font-size: var(--font-ui); gap: 10px; padding: 8px 12px; }
 .speed-history,.speed-compare { margin-top: 65px; }
 .speed-history .tool-heading,.speed-compare .tool-heading { align-items: center; }
-.speed-history .tool-heading>.text-link { font-size: 12px; gap: 9px; }
+.speed-history .tool-heading>.text-link { font-size: var(--font-ui); gap: 9px; }
 .speed-history .table-scroll { border-radius: 17px; }
 .speed-empty { display: flex; align-items: center; gap: 22px; padding: 30px; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; }
 .speed-empty>svg { box-sizing: content-box; padding: 14px; background: var(--accent-wash); border-radius: 15px; flex-shrink: 0; stroke-width: 1.3; }
-.speed-empty>p { font-size: 13px; line-height: 1.9; max-width: 650px; }
+.speed-empty>p { font-size: var(--font-body); line-height: 1.9; max-width: 650px; }
 .speed-history-table { min-width: 870px; }
 .speed-history-table th,.speed-history-table td { padding: 20px; }
-.speed-history-table thead th { font-size: 13px; }
-.speed-history-table td { font-size: 12px; }
-.speed-history-table td>small { display: block; margin-top: 6px; font-size: 10px; }
-.speed-history-table .text-link { font-size: 11px; gap: 10px; }
-.speed-history-caption { font-size: 11px; line-height: 1.8; margin-top: 15px; }
+.speed-history-table thead th { font-size: var(--font-table); }
+.speed-history-table td { font-size: var(--font-table); }
+.speed-history-table td>small { display: block; margin-top: 6px; font-size: var(--font-caption); }
+.speed-history-table .text-link { font-size: var(--font-ui); gap: 10px; }
+.speed-history-caption { font-size: var(--font-caption); line-height: 1.8; margin-top: 15px; }
 .speed-plan-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
 .speed-plan-grid>article { position: relative; padding: 30px; background: var(--surface); border: 1px solid var(--line); border-radius: 19px; transition: border-color .2s; }
 .speed-plan-grid>article.selected { border-color: var(--accent); }
 .speed-plan-grid>article.selected::before { content: ''; position: absolute; top: 28px; right: 28px; width: 7px; height: 7px; border: 4px solid var(--surface); box-sizing: content-box; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 1px var(--line); }
-.speed-plan-grid .eyebrow { font-size: 10px; }
+.speed-plan-grid .eyebrow { font-size: var(--font-caption); }
 .speed-plan-grid h3 { font-size: 24px; line-height: 1.25; margin-top: 27px; }
 .speed-plan-grid strong { display: block; font-weight: 400; font-size: 49px; letter-spacing: -.055em; margin-top: 27px; line-height: 1.15; }
-.speed-plan-grid strong>small { display: block; font-size: 11px; letter-spacing: 0; line-height: 1.8; margin-top: 10px; }
-.speed-plan-grid p { font-size: 13px; line-height: 1.9; margin-top: 23px; }
-.speed-plan-grid .button { font-size: 12px; gap: 15px; margin-top: 28px; min-height: 45px; padding-inline: 15px; border-radius: 25px; }
+.speed-plan-grid strong>small { display: block; font-size: var(--font-caption); letter-spacing: 0; line-height: 1.8; margin-top: 10px; }
+.speed-plan-grid p { font-size: var(--font-body); line-height: 1.9; margin-top: 23px; }
+.speed-plan-grid .button { font-size: var(--font-ui); gap: 15px; margin-top: 28px; min-height: 45px; padding-inline: 15px; border-radius: 25px; }
 .speed-footnote { margin-top: 22px; max-width: 850px; line-height: 1.9; }
 .speed-method { margin-top: 40px; padding: 25px 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
-.speed-method summary { cursor: pointer; font-size: 15px; line-height: 1.8; }
-.speed-method p { font-size: 13px; line-height: 1.9; margin-top: 19px; max-width: 950px; }
+.speed-method summary { cursor: pointer; font-size: var(--font-body); line-height: 1.8; }
+.speed-method p { font-size: var(--font-body); line-height: 1.9; margin-top: 19px; max-width: 950px; }
 .account-speed-link { margin-top: 18px; }
 .home-hub .hub-card[href="/speedtest"] { grid-column: 1 / -1; display: grid; grid-template-columns: 40px 1fr; column-gap: 20px; }
 .home-hub .hub-card[href="/speedtest"]>svg:first-child { grid-row: 1 / 3; margin-top: 3px; }
@@ -149,7 +149,7 @@
 @media(min-width:1401px) and (max-width:1530px) { .navigation-header .desktop-nav { gap: 12px; } .navigation-header .desktop-nav a { font-size: 12px; } .navigation-header .header-inner { gap: 18px; } }
 @media(max-width:1200px) { .speed-workspace { grid-template-columns: minmax(0,1.45fr) minmax(300px,.85fr); gap: 20px; } .speed-console { padding: 27px 24px; } .speed-controls { padding: 28px 22px; } .speed-metrics { grid-template-columns: 1fr 1fr; } .speed-metrics strong { font-size: 36px; } }
 @media(max-width:1000px) { .speed-workspace { grid-template-columns: 1fr; } .speed-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; } .speed-controls>.eyebrow,.speed-controls>h2,.speed-context { grid-column: 1 / -1; } .speed-account,.speed-mode-note { margin-top: 25px; } .speed-metrics { grid-template-columns: repeat(4,minmax(0,1fr)); } .speed-plan-grid { gap: 16px; } .speed-plan-grid>article { padding: 24px; } .speed-plan-grid h3 { font-size: 22px; } .speed-plan-grid strong { font-size: 43px; } }
-@media(max-width:760px) { .speed-page-intro .breadcrumbs { margin-bottom: 31px; } .speed-intro-body { grid-template-columns: 1fr; gap: 25px; } .speed-intro-body h1 { font-size: clamp(49px,9vw,68px); margin-top: 20px; } .speed-intro-copy { max-width: 560px; } .speed-intro-copy>p { font-size: 14px; } .speed-intro-tags { margin-top: 17px; } .speed-mode-selector>button { padding: 17px 15px; gap: 11px; } .speed-mode-icon { width: 36px; height: 36px; border-radius: 10px; } .speed-mode-icon>svg { width: 20px; } .speed-mode-selector b { font-size: 15px; } .speed-mode-selector small { font-size: 11px; } .speed-mode-mark { display: none; } .speed-metrics strong { font-size: 30px; } }
-@media(max-width:600px) { .speed-page-intro { padding-bottom: 26px; } .speed-intro-body .eyebrow { font-size: 9px; } .speed-mode-selector { grid-template-columns: 1fr; gap: 5px; padding: 6px; border-radius: 18px; } .speed-mode-selector>button { padding: 15px; border-radius: 12px; } .speed-mode-mark { display: grid; } .speed-console { padding: 23px 18px; border-radius: 20px; } .speed-controls { display: block; padding: 27px 23px; border-radius: 20px; } .speed-console-top { gap: 12px; } .speed-console-top h2 { font-size: 18px; max-width: 160px; } .speed-reference { font-size: 11px; padding: 10px; gap: 7px; } .speed-reference small { font-size: 9px; } .speed-reference>svg { width: 14px; } .speed-reference>svg:last-child { display: none; } .speed-badge { font-size: 8px; letter-spacing: .04em; } .speed-gauge { max-width: 335px; } .speed-gauge-value>strong { font-size: 59px; } .speed-gauge-value>span { font-size: 8px; } .speed-metrics { grid-template-columns: 1fr 1fr; } .speed-metrics strong { font-size: 34px; } .speed-stages { gap: 7px; } .speed-stages>li { font-size: 10px; gap: 5px; } .speed-stages li>span { width: 21px; height: 21px; } .speed-start>.button { min-width: 225px; } .speed-plot>div { align-items: flex-start; flex-direction: column; gap: 15px; } .speed-plot>p { font-size: 10px; inset-inline: 0; } .speed-result-note { padding: 14px; } .speed-result-note>div { min-width: 155px; } .speed-plan-grid { grid-template-columns: 1fr; gap: 16px; } .speed-plan-grid>article { padding: 28px; } .speed-plan-grid h3 { font-size: 25px; } .speed-plan-grid strong { font-size: 49px; } .speed-history,.speed-compare { margin-top: 47px; } .speed-history .tool-heading { align-items: flex-start; flex-direction: column; gap: 20px; } .speed-empty { padding: 23px; align-items: flex-start; gap: 16px; } .speed-empty>svg { padding: 10px; } .speed-empty>p { font-size: 12px; } .speed-method { padding: 22px; } }
-@media(max-width:360px) { .speed-console { padding-inline: 14px; } .speed-console-top h2 { font-size: 17px; } .speed-reference { gap: 5px; padding: 8px; } .speed-reference>svg { display: none; } .speed-gauge-value>strong { font-size: 51px; } .speed-stages>li { gap: 4px; font-size: 9px; } .speed-metrics>article { padding: 13px 11px; } }
+@media(max-width:760px) { .speed-page-intro .breadcrumbs { margin-bottom: 31px; } .speed-intro-body { grid-template-columns: 1fr; gap: 25px; } .speed-intro-body h1 { font-size: clamp(49px,9vw,68px); margin-top: 20px; } .speed-intro-copy { max-width: 560px; } .speed-intro-copy>p { font-size: var(--font-body); } .speed-intro-tags { margin-top: 17px; } .speed-mode-selector>button { padding: 17px 15px; gap: 11px; } .speed-mode-icon { width: 36px; height: 36px; border-radius: 10px; } .speed-mode-icon>svg { width: 20px; } .speed-mode-selector b { font-size: var(--font-body); } .speed-mode-selector small { font-size: var(--font-caption); } .speed-mode-mark { display: none; } .speed-metrics strong { font-size: 30px; } }
+@media(max-width:600px) { .speed-page-intro { padding-bottom: 26px; } .speed-intro-body .eyebrow { font-size: var(--font-caption); } .speed-mode-selector { grid-template-columns: 1fr; gap: 5px; padding: 6px; border-radius: 18px; } .speed-mode-selector>button { padding: 15px; border-radius: 12px; } .speed-mode-mark { display: grid; } .speed-console { padding: 23px 18px; border-radius: 20px; } .speed-controls { display: block; padding: 27px 23px; border-radius: 20px; } .speed-console-top { gap: 12px; } .speed-console-top h2 { font-size: 18px; max-width: 160px; } .speed-reference { font-size: var(--font-body); padding: 10px; gap: 7px; } .speed-reference small { font-size: var(--font-caption); } .speed-reference>svg { width: 14px; } .speed-reference>svg:last-child { display: none; } .speed-badge { font-size: var(--font-caption); letter-spacing: .04em; } .speed-gauge { max-width: 335px; } .speed-gauge-value>strong { font-size: 59px; } .speed-gauge-value>span { font-size: 8px; } .speed-metrics { grid-template-columns: 1fr 1fr; } .speed-metrics strong { font-size: 34px; } .speed-stages { gap: 7px; } .speed-stages>li { font-size: var(--font-body); gap: 5px; } .speed-stages li>span { width: 21px; height: 21px; } .speed-start>.button { min-width: 225px; } .speed-plot>div { align-items: flex-start; flex-direction: column; gap: 15px; } .speed-plot>p { font-size: var(--font-body); inset-inline: 0; } .speed-result-note { padding: 14px; } .speed-result-note>div { min-width: 155px; } .speed-plan-grid { grid-template-columns: 1fr; gap: 16px; } .speed-plan-grid>article { padding: 28px; } .speed-plan-grid h3 { font-size: 25px; } .speed-plan-grid strong { font-size: 49px; } .speed-history,.speed-compare { margin-top: 47px; } .speed-history .tool-heading { align-items: flex-start; flex-direction: column; gap: 20px; } .speed-empty { padding: 23px; align-items: flex-start; gap: 16px; } .speed-empty>svg { padding: 10px; } .speed-empty>p { font-size: var(--font-body); } .speed-method { padding: 22px; } }
+@media(max-width:360px) { .speed-console { padding-inline: 14px; } .speed-console-top h2 { font-size: 17px; } .speed-reference { gap: 5px; padding: 8px; } .speed-reference>svg { display: none; } .speed-gauge-value>strong { font-size: 51px; } .speed-stages>li { gap: 4px; font-size: var(--font-body); } .speed-metrics>article { padding: 13px 11px; } }
 @media(prefers-reduced-motion:reduce) { .speed-mode-selector>button,.speed-gauge-fill,.speed-gauge-dot,.speed-progress::-webkit-progress-value,.speed-plan-grid>article { transition: none; } .speed-console.is-running .speed-status::before { animation: none; } }

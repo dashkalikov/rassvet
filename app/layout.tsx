@@ -13,6 +13,7 @@ import "./account-settings.css";
 import "./choices.css";
 import "./matte-themes.css";
 import "./operations.css";
+import "./typography.css";
 import {APPEARANCE_BOOTSTRAP} from '../lib/appearance';
 
 export const metadata: Metadata = {
