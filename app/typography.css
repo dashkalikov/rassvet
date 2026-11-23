@@ -42,7 +42,7 @@ body { font-size: var(--font-body); }
 .navigation-header .desktop-nav>.navigation-group { flex-shrink: 0; }
 
 @media(min-width:761px) and (max-width:1680px) {
-  .navigation-header .desktop-nav { justify-content:space-between;gap:4px;flex-wrap:nowrap; }
+  .navigation-header .desktop-nav { justify-content:center;gap:4px;flex-wrap:nowrap; }
 }
 
 @media(max-width:760px) {
