@@ -30,7 +30,7 @@ export default function OperationsFrame({user,active,section='overview',children
         </div>
       </div>
     </header>
-    <main id="main" className="ops-shell ops-main">{children}</main>
+    <main id="main" className="ops-shell ops-main wallpaper-surface">{children}</main>
     <SystemNotices/>
   </div>;
 }

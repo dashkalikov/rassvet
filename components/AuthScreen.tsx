@@ -1,15 +1,19 @@
 'use client';
 import Link from 'next/link';
+import {useEffect,useState} from 'react';
 import { ArrowLeft,Satellite,ShieldCheck } from 'lucide-react';
 import { Brand } from './ui';
 import AuthForm from './AuthForm';
 import ThemeToggle from './ThemeToggle';
 import AuthOrbit from './AuthOrbit';
-import {ROLE_LABELS,type Role} from '../lib/operations-policy';
+import {PORTAL_PATHS,ROLE_LABELS,type Role} from '../lib/operations-policy';
+import {readLastLogin} from '../lib/last-login';
 
-export default function AuthScreen({returnTo,mode,portal}:{returnTo:string;mode:'login'|'register';portal:Role}){
- const staff=portal!=='customer';
- return <div className="auth-page">
+export default function AuthScreen({returnTo,mode,portal,restoreLogin=false}:{returnTo:string;mode:'login'|'register';portal:Role;restoreLogin?:boolean}){
+ const [selectedPortal,setSelectedPortal]=useState(portal),[formMode,setFormMode]=useState(mode);
+ useEffect(()=>{if(restoreLogin){const saved=readLastLogin();if(saved)setSelectedPortal(saved.portal);}},[restoreLogin]);
+ const staff=selectedPortal!=='customer';
+ return <div className="auth-page" data-auth-mode={formMode}>
   <header className="auth-header"><Brand/><div><ThemeToggle/><Link href="/" className="back-to-site"><ArrowLeft size={16}/>На главную</Link></div></header>
   <main className="auth-layout">
    <section className="auth-visual">
@@ -21,13 +25,13 @@ export default function AuthScreen({returnTo,mode,portal}:{returnTo:string;mode:
     <div className="auth-visual-bottom"><Satellite size={24}/><span>РАССВЕТ · СПУТНИКОВЫЙ ИНТЕРНЕТ</span></div>
    </section>
    <section className="auth-card">
-    <h2>{portal==='engineer'?'Вход для инженера':portal==='admin'?'Вход для администратора':'Личный кабинет'}</h2>
+    <h2>{selectedPortal==='engineer'?'Вход для инженера':selectedPortal==='admin'?'Вход для администратора':formMode==='register'?'Создайте свой аккаунт':'Личный кабинет'}</h2>
     <nav className="auth-portals" aria-label="Выберите кабинет">
-     {(['customer','engineer','admin'] as const).map(role=><a key={role} href={role==='customer'?'/auth':'/auth?portal='+role} aria-current={role===portal?'page':undefined}>{ROLE_LABELS[role]}</a>)}
+     {(['customer','engineer','admin'] as const).map(role=><a key={role} href={'/auth?portal='+role} aria-current={role===selectedPortal?'page':undefined}>{ROLE_LABELS[role]}</a>)}
     </nav>
-    <AuthForm key={portal} returnTo={returnTo} initialMode={mode} portal={portal}/>
+    <AuthForm key={selectedPortal} returnTo={staff?PORTAL_PATHS[selectedPortal]:returnTo} initialMode={mode} portal={selectedPortal} onModeChange={setFormMode}/>
    </section>
   </main>
-  <footer className="auth-footer"><span>© 2026 РАССВЕТ. Учебный проект.</span><span><ShieldCheck size={14}/>Локальная версия</span></footer>
+  <footer className="auth-footer"><span>© 2026 РАССВЕТ. Спутниковая связь.</span><span><ShieldCheck size={14}/>Локальная версия</span></footer>
  </div>;
 }

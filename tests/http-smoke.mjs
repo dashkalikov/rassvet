@@ -22,6 +22,15 @@ try{
  const a={cookie:admin.cookie};
  const customer=await request('/api/auth/register',201,{body:identity('customer')});
  const c={cookie:customer.cookie};
+ await request('/api/profile',200,{...c,method:'PUT',body:{name:'Анна Смирнова',phone:'+79991234567'}});
+ const review='/connect?step=review&address='+encodeURIComponent('Москва, Тверская улица, д. 13');
+ const confirmation=await request(review,200,c);
+ for(const value of ['Анна Смирнова','customer@example.test','+79991234567','connection-review','continue-button'])assert.ok(confirmation.text.includes(value),value);
+ assert.doesNotMatch(confirmation.text,/учебн/i);
+ const guestReview=await request(review,200);assert.match(guestReview.text,/<button[^>]*disabled=""[^>]*>Войти и продолжить/);
+ const cities=await request('/api/addresses?q='+encodeURIComponent('М'),200);assert.ok(cities.json().suggestions.some(item=>item.label==='Москва'));
+ await request('/api/addresses?q='+('a'.repeat(301)),400);
+ const deniedLookup=await mf.dispatchFetch(base+'/api/addresses?q=Москва',{headers:{'Sec-Fetch-Site':'cross-site'}});assert.equal(deniedLookup.status,403);await deniedLookup.text();
  await request('/api/operations/demo',403,{...c,body:{}});
  await request('/api/operations/demo',403,{...a,body:{},origin:'https://example.org'});
  await request('/api/operations/demo',200,{...a,body:{}});
@@ -38,6 +47,7 @@ try{
  for(const [path,label] of [
   ['/operations','Инженерная панель'],['/operations?section=overview','Демонстрационная нагрузка API'],
   ['/operations?section=overview&demo=0','Измерения локального приложения'],['/operations?section=subscriptions','Анна Смирнова'],
+  ['/operations/orbits/map','Орбиты всех аппаратов'],['/operations/orbits/globe','Аппараты'],
   ['/operations/orbits/map?norad=100098','Только избранные'],['/operations/orbits/globe?norad=100098','Зоны видимости'],
   ['/operations/orbits/history?norad=68360','findrassvet.ru'],['/operations/orbits/catalog?norad=100098','В избранное RASSVET-3 32'],
  ])assert.ok((await request(path,200,e)).text.includes(label),path);
@@ -54,9 +64,18 @@ try{
  const prom=await request('/api/operations/export?format=prom&demo=1',200,e);assert.match(prom.text,/rassvet_data_mode\{mode="demo"\} 1/);
  const measured=await request('/api/operations/export?format=json',200,e);assert.equal(measured.json().dataMode,'measured');
  await request('/api/operations/export?dataset=access',403,e);
+ for(const dataset of ['accounts','orders']){
+  const exported=await request('/api/operations/export?dataset='+dataset,200,a);
+  assert.ok(exported.text.includes('customer@example.test'),dataset+' includes the local customer');
+  if(dataset==='orders'){assert.ok(exported.text.includes(order.id));assert.match(exported.text,/"active"/);}
+  await request('/api/operations/export?dataset='+dataset,403,e);
+  await request('/api/operations/export?dataset='+dataset,403,c);
+ }
+ assert.ok((await request('/admin?section=accounts',200,a)).text.includes('dataset=accounts'));
+ assert.ok((await request('/admin?section=subscriptions',200,a)).text.includes('dataset=orders'));
  for(const path of ['/','/account','/operations','/admin','/operations/orbits/catalog']){
   const page=await request(path,200,a);assert.match(page.text,/portal-switcher-options/);
   for(const portal of ['/account','/operations','/admin'])assert.ok(page.text.includes('href="'+portal+'"'),path+' '+portal);
  }
- console.log('HTTP smoke passed: isolated DB, demo identities, access and CSRF checks, own subscription activation, engineer views, archive curves and CSV/JSON/Prometheus exports.');
+ console.log('HTTP smoke passed: isolated DB, demo identities, access and CSRF checks, local subscription activation, all-orbit views, archive curves, restricted admin CSV and CSV/JSON/Prometheus exports.');
 }finally{await mf.dispose();}

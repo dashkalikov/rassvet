@@ -37,8 +37,8 @@ export function checkCoverage(value: string) {
   const address = text(value);
   if (address.length < 3 || address.length > 300) throw new Error('Введите адрес или название города');
   const normalized = address.toLocaleLowerCase('ru');
-  if ([...CONNECTION_CITIES,'московск','ленинградск','татарстан'].some(city => normalized.includes(city.toLocaleLowerCase('ru')))) return { status: 'available' as const, title: 'Учебная подписка доступна', description: 'Оформите заявку и активируйте подписку в личном кабинете. Реальное подключение и оплата не выполняются.' };
-  return { status: 'unknown' as const, title: 'Уточним возможность подключения', description: 'Этого адреса пока нет в учебной карте. Отправьте заявку — она сохранится в личном кабинете.' };
+  if ([...CONNECTION_CITIES,'московск','ленинградск','татарстан'].some(city => normalized.includes(city.toLocaleLowerCase('ru')))) return { status: 'available' as const, title: 'Подключение доступно', description: 'Оформите заявку, проверьте выбранный тариф и управляйте подпиской в личном кабинете.' };
+  return { status: 'unknown' as const, title: 'Уточним возможность подключения', description: 'Для этого адреса требуется уточнение условий. Отправьте заявку — она сохранится в личном кабинете.' };
 }
 export function validateTicket(value: unknown) {
   const input = object(value); const subject = text(input.subject); const message = text(input.message);

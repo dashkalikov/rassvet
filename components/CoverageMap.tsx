@@ -15,7 +15,7 @@ export default function CoverageMap({select}:{select:(city:string)=>void}){
  return <FullscreenPanel title="Карта покрытия" className="coverage-map">
   <div className="map-coordinate">60° 00′ N &nbsp; 100° 00′ E <span>КАРТА РОССИИ</span></div>
   <div className="map-viewport">
-   <svg viewBox={`0 0 ${map.width} ${map.height}`} role="group" aria-label="Карта России с географическими границами и городами учебной сети">
+   <svg viewBox={`0 0 ${map.width} ${map.height}`} role="group" aria-label="Карта России с географическими границами и городами сети">
     <defs><clipPath id={clipId}><rect width={map.width} height={map.height}/></clipPath></defs>
     <g clipPath={`url(#${clipId})`}>
      <g className="map-zoom-layer" style={{transform:`translate(500px,260px) scale(${zoom}) translate(-500px,-260px)`}}>
@@ -23,7 +23,7 @@ export default function CoverageMap({select}:{select:(city:string)=>void}){
       <g className="map-country" aria-hidden="true">{map.outlines.map((d,index)=><path d={d} key={index}/>)}</g>
       <g className="map-borders" aria-hidden="true">{map.borders.map((d,index)=><path d={d} key={index}/>)}</g>
       {visible.map(city=><g className={`map-city ${city.live?'live':'planned'}`} key={city.name} role="button" tabIndex={0} aria-label={`Проверить ${city.name}`} onClick={()=>select(city.name)} onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();select(city.name);}}}>
-       <title>{`${city.name} · Учебная подписка доступна`}</title>
+       <title>{`${city.name} · Подключение доступно`}</title>
        <circle cx={city.x} cy={city.y} r="17" fill="transparent"/>
        <circle className="map-pin-halo" cx={city.x} cy={city.y} r="10"/>
        <circle className="map-pin" cx={city.x} cy={city.y} r="4"/>
@@ -39,10 +39,10 @@ export default function CoverageMap({select}:{select:(city:string)=>void}){
    </div>
   </div>
   <div className="map-footer"><div className="map-legend">
-   <span><i className="live"/>Учебная подписка доступна</span>
+   <span><i className="live"/>Подключение доступно</span>
    <button aria-pressed={labels} onClick={()=>setLabels(!labels)}>{labels?'Скрыть подписи':'Все подписи'}</button>
   </div><span className="map-hint"><MapPin size={12}/>Выберите город</span></div>
   <div className="map-city-shortcuts" aria-label="Города на карте">{visible.map(city=><button key={city.name} onClick={()=>select(city.name)}>{city.name}</button>)}</div>
-  <p className="map-attribution">География: <a href="https://www.naturalearthdata.com/downloads/50m-cultural-vectors/" target="_blank" rel="noreferrer">Natural Earth</a> · учебное покрытие</p>
+  <p className="map-attribution">География: <a href="https://www.naturalearthdata.com/downloads/50m-cultural-vectors/" target="_blank" rel="noreferrer">Natural Earth</a> · покрытие сети</p>
  </FullscreenPanel>;
 }

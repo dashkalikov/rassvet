@@ -14,11 +14,16 @@ import "./choices.css";
 import "./matte-themes.css";
 import "./operations.css";
 import "./typography.css";
+import "./order-experience.css";
+import "./backgrounds.css";
+import "./ui-refinements.css";
 import {APPEARANCE_BOOTSTRAP} from '../lib/appearance';
+import {BACKGROUND_BOOTSTRAP} from '../lib/backgrounds';
+import BackgroundLayer from '../components/BackgroundLayer';
 
 export const metadata: Metadata = {
   title: "РАССВЕТ — мир ближе, чем кажется",
-  description: "Спутниковый интернет для дома, путешествий и бизнеса. Учебная концепция оператора РАССВЕТ: тарифы, карта покрытия и личный кабинет.",
+  description: "Спутниковый интернет РАССВЕТ для дома, путешествий и бизнеса: тарифы, оборудование, карта покрытия и личный кабинет.",
   icons: {
     icon: "/favicon.svg?v=6",
     shortcut: "/favicon.svg?v=6",
@@ -32,8 +37,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <head><script dangerouslySetInnerHTML={{__html:APPEARANCE_BOOTSTRAP}}/></head>
-      <body>{children}</body>
+      <head><script dangerouslySetInnerHTML={{__html:APPEARANCE_BOOTSTRAP+';'+BACKGROUND_BOOTSTRAP}}/></head>
+      <body><BackgroundLayer/>{children}</body>
     </html>
   );
 }

@@ -10,5 +10,7 @@ export default async function AuthPage({searchParams}:{searchParams:Promise<{ret
   const returnTo=portal==='customer'?safeReturnPath(params.returnTo):PORTAL_PATHS[portal];
   const user=await getCurrentUser();
   if(user&&canAccessPortal(user.role,portal))redirect(returnTo);
-  return <AuthScreen returnTo={returnTo} portal={portal} mode={portal==='customer'&&params.mode==='register'?'register':'login'}/>;
+  const mode=portal==='customer'&&params.mode==='register'?'register':'login';
+  const restoreLogin=!params.portal&&(!params.returnTo||returnTo==='/account')&&mode==='login';
+  return <AuthScreen key={`${portal}:${mode}:${restoreLogin}`} returnTo={returnTo} portal={portal} mode={mode} restoreLogin={restoreLogin}/>;
 }

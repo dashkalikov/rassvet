@@ -12,7 +12,7 @@ export function OperationsLogout(){
     try{await api('/api/auth/logout',{method:'POST',body:'{}'});window.location.assign('/auth');}
     catch{setError('Не удалось завершить сеанс.');setBusy(false);}
   }
-  return <><button type="button" className="ops-button" onClick={signOut} disabled={busy}><LogOut size={16}/>Выйти</button>
+  return <><button type="button" className="ops-button logout-button" onClick={signOut} disabled={busy}><LogOut size={16}/>Выйти</button>
     {error&&<span className="ops-action-error" role="alert">{error}</span>}</>;
 }
 

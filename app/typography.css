@@ -9,6 +9,18 @@
 body { font-size: var(--font-body); }
 .engineering-hero-content>p:not(.engineering-kicker) { font-size: var(--font-body); }
 
+/* Keep text in descriptions and footer navigation readable over theme overrides. */
+:root .solution-content>p,
+:root .solution-content ul,
+:root .solution-content ul>li { font-size:var(--font-body); line-height:1.7; }
+:root .solution-content ul>li { align-items:flex-start; gap:12px; }
+:root .solution-content ul>li>svg { width:20px; height:20px; flex-shrink:0; margin-top:5px; }
+:root .footer-top>div>p { font-size:var(--font-body); line-height:1.7; }
+:root .footer-top>div>span:first-child { font-size:var(--font-caption); font-weight:650; line-height:1.5; margin-bottom:12px; }
+:root .footer-top>div>a:not(.brand),
+:root .footer-top>div>button { display:flex; align-items:center; min-height:44px; font-size:var(--font-ui); line-height:1.5; white-space:normal; overflow-wrap:anywhere; }
+:root .footer-top>div { min-width:0; }
+
 /* Give longer labels room to wrap as their text grows. */
 .card-actions,.wizard-actions,.modal-actions,.orbit-map-legend { flex-wrap: wrap; }
 .card-actions>.button,.wizard-actions>.button,.modal-actions>.button { white-space: normal; text-align: center; }

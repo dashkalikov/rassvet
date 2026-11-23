@@ -1,8 +1,9 @@
+import OrderStatusBadge from '../../components/OrderStatusBadge';
 import {redirect} from 'next/navigation';
 import {getDb} from '../../db';
 import {getCurrentUser} from '../../lib/session';
 import {loadAdmin} from '../../lib/operations';
-import {ROLE_LABELS,SUBSCRIPTION_TRANSITIONS,subscriptionLabel} from '../../lib/operations-policy';
+import {ROLE_LABELS,SUBSCRIPTION_TRANSITIONS} from '../../lib/operations-policy';
 import {PLANS} from '../../lib/domain';
 import OperationsFrame from '../../components/OperationsFrame';
 import AdminAction from '../../components/AdminAction';
@@ -52,11 +53,11 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{se
       </tbody></table></div>:<p>Подходящих аккаунтов нет.</p>}
     </section>}
     {section==='subscriptions'&&<section className="ops-panel">
-      <div className="ops-panel-heading"><div><h2>Заявки и подписки</h2><p>Меняйте статус учебной подписки. Клиент увидит его в личном кабинете.</p></div>
+      <div className="ops-panel-heading"><div><h2>Заявки и подписки</h2><p>Меняйте статус заявки и подписки. Клиент увидит его в личном кабинете.</p></div>
         <ExportLink href="/api/operations/export?dataset=orders">Заявки · CSV</ExportLink></div>
       {data.orders.length?<div className="ops-table-wrap"><table><thead><tr><th>Заявка</th><th>Клиент</th><th>Тариф</th><th>Статус</th><th>Действия</th></tr></thead><tbody>
         {data.orders.map(order=><tr key={order.id}><th>{order.id.slice(0,8)}<small>{date(order.createdAt)}</small></th>
-          <td>{order.name??'—'}</td><td>{PLANS.find(p=>p.id===order.plan)?.name??order.plan}</td><td>{subscriptionLabel(order.status)}</td>
+          <td>{order.name??'—'}</td><td>{PLANS.find(p=>p.id===order.plan)?.name??order.plan}</td><td><OrderStatusBadge status={order.status}/></td>
           <td><div className="ops-row-actions">{SUBSCRIPTION_TRANSITIONS[order.status]?.map(status=><AdminAction key={status}
             label={actionLabels[status]} subject={'Заявка '+order.id.slice(0,8)} danger={status==='cancelled'}
             action={{action:'subscription',id:order.id,previous:order.status,status}}/>)}</div></td></tr>)}

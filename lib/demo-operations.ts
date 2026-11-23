@@ -23,7 +23,7 @@ export async function seedDemoAccounts(db:DrizzleD1Database<typeof schema>,now=n
   }
   const plan=PLANS[index%3],orderId='demo-order-'+String(index+1).padStart(3,'0');
   const status=['active','active','paused','new','cancelled','active'][index%6];
-  queries.push(db.insert(schema.orders).select(sql`SELECT ${orderId},${id},${plan.id},'monthly',${cities[index%cities.length]+', Учебная улица, '+(index+1)},${plan.price},${plan.equipment},${plan.price+plan.equipment},${status},${date(28-index)},NULL
+  queries.push(db.insert(schema.orders).select(sql`SELECT ${orderId},${id},${plan.id},'monthly',${cities[index%cities.length]+', Лесная улица, '+(index+1)},${plan.price},${plan.equipment},${plan.price+plan.equipment},${status},${date(28-index)},NULL
    FROM accounts WHERE id=${id} AND email=${email}`).onConflictDoNothing());
   if(status!=='new')queries.push(db.insert(schema.subscriptionEvents).select(sql`SELECT NULL,${orderId},${plan.id},NULL,'new',${date(29-index)} WHERE EXISTS(SELECT 1 FROM orders WHERE id=${orderId}) AND NOT EXISTS(SELECT 1 FROM subscription_events WHERE order_id=${orderId} AND status='new')`));
   if(status==='paused')queries.push(db.insert(schema.subscriptionEvents).select(sql`SELECT NULL,${orderId},${plan.id},'new','active',${date(28.5-index)} WHERE EXISTS(SELECT 1 FROM orders WHERE id=${orderId}) AND NOT EXISTS(SELECT 1 FROM subscription_events WHERE order_id=${orderId} AND status='active')`));
