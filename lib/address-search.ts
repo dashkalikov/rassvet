@@ -31,6 +31,23 @@ export function parseAddressResults(payload:unknown):AddressSuggestion[]{
  return [...items.values()].slice(0,8);
 }
 export function addressSelectionValue(item:AddressSuggestion){return item.kind==='city'?item.city+', ':item.kind==='street'?item.label+', д. ':item.label;}
+export function photonUrlFor(query:string){
+ const url=new URL('https://photon.komoot.io/api/');
+ url.searchParams.set('q',query);url.searchParams.set('countrycode','RU');url.searchParams.set('limit','8');
+ for(const layer of ['city','street','house'])url.searchParams.append('layer',layer);
+ return url;
+}
+export function combineAddressSuggestions(remote:AddressSuggestion[],local:AddressSuggestion[]):AddressSearchResult{
+ const combined=new Map<string,AddressSuggestion>();for(const item of [...remote,...local])combined.set(normalize(item.label),item);
+ return {suggestions:[...combined.values()].slice(0,8),source:remote.length?'osm':'cities',unavailable:false};
+}
+/** Browser-side lookup for hosts whose server cannot reach the address source (for example behind a TLS proxy). */
+export async function fetchPhotonSuggestions(query:string,signal?:AbortSignal):Promise<AddressSuggestion[]>{
+ const response=await fetch(photonUrlFor(query),{headers:{Accept:'application/json'},credentials:'omit',referrerPolicy:'no-referrer',signal:signal??AbortSignal.timeout(10_000)});
+ if(!response.ok)throw new Error('Address source unavailable');
+ const body=await response.text();if(body.length>300_000)throw new Error('Address response too large');
+ return parseAddressResults(JSON.parse(body));
+}
 export function createAddressSearch({fetcher=fetch,now=Date.now}:{fetcher?:typeof fetch;now?:()=>number}={}){
  const cache=new Map<string,{until:number;result:AddressSearchResult}>(),pending=new Map<string,Promise<AddressSearchResult>>();
  return async function search(input:string):Promise<AddressSearchResult>{
@@ -43,15 +60,10 @@ export function createAddressSearch({fetcher=fetch,now=Date.now}:{fetcher?:typeo
   const task=(async():Promise<AddressSearchResult>=>{
    let result:AddressSearchResult;
    try{
-    const url=new URL('https://photon.komoot.io/api/');
-    url.searchParams.set('q',query);url.searchParams.set('countrycode','RU');url.searchParams.set('limit','8');
-    for(const layer of ['city','street','house'])url.searchParams.append('layer',layer);
-    const response=await fetcher(url,{headers:{Accept:'application/json'},credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(5000)});
+    const response=await fetcher(photonUrlFor(query),{headers:{Accept:'application/json'},credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(5000)});
     if(!response.ok)throw new Error('Address source unavailable');
     const body=await response.text();if(body.length>300_000)throw new Error('Address response too large');
-    const remote=parseAddressResults(JSON.parse(body));
-    const combined=new Map<string,AddressSuggestion>();for(const item of [...remote,...local])combined.set(normalize(item.label),item);
-    result={suggestions:[...combined.values()].slice(0,8),source:remote.length?'osm':'cities',unavailable:false};
+    result=combineAddressSuggestions(parseAddressResults(JSON.parse(body)),local);
    }catch{result={suggestions:local,source:'cities',unavailable:true};}
    if(cache.size>=100)cache.delete(cache.keys().next().value!);
    cache.set(key,{until:now()+(result.unavailable?15_000:300_000),result});return result;

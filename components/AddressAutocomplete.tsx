@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useId,useRef,useState,type KeyboardEvent} from 'react';
 import {Building2,Home,LoaderCircle,MapPin,Search} from 'lucide-react';
-import {addressSelectionValue,citySuggestions,type AddressSearchResult,type AddressSuggestion} from '../lib/address-search';
+import {addressSelectionValue,citySuggestions,combineAddressSuggestions,fetchPhotonSuggestions,type AddressSearchResult,type AddressSuggestion} from '../lib/address-search';
 
 export default function AddressAutocomplete({value,onChange,id,label='Адрес подключения',required=true,minLength=8,autoFocus=false}:{value:string;onChange:(value:string)=>void;id?:string;label?:string;required?:boolean;minLength?:number;autoFocus?:boolean}){
  const uid=useId().replaceAll(':',''),inputId=id??'address-'+uid,listId=inputId+'-options',hintId=inputId+'-hint';
@@ -14,12 +14,16 @@ export default function AddressAutocomplete({value,onChange,id,label='Адрес
   const controller=new AbortController();
   const timer=setTimeout(async()=>{
    setBusy(true);
+   const show=(result:AddressSearchResult)=>{if(!controller.signal.aborted){setQuery(value);setResult(result);setActive(-1);}};
    try{
     const response=await fetch('/api/addresses?q='+encodeURIComponent(value),{signal:controller.signal,credentials:'same-origin',cache:'no-store'});
     if(!response.ok)throw new Error();
     const data=await response.json() as AddressSearchResult;
-    if(!controller.signal.aborted){setQuery(value);setResult(data);setActive(-1);}
-   }catch{if(!controller.signal.aborted){setQuery(value);setResult({suggestions:citySuggestions(value),source:'cities',unavailable:true});}}
+    if(!data.unavailable){show(data);return;}
+    // The server could not reach the address source (for example behind a TLS proxy) — ask it from the browser.
+    const remote=await fetchPhotonSuggestions(value,controller.signal);
+    show(combineAddressSuggestions(remote,citySuggestions(value)));
+   }catch{show({suggestions:citySuggestions(value),source:'cities',unavailable:true});}
    finally{if(!controller.signal.aborted)setBusy(false);}
   },650);
   return()=>{clearTimeout(timer);controller.abort();};
