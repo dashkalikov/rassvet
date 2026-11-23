@@ -32,7 +32,7 @@
 @keyframes address-spin { to { transform:rotate(360deg); } }
 .connection-review { width:min(100%,720px); margin:30px auto; display:grid; gap:10px; text-align:left; }
 .connection-review>div { display:grid; grid-template-columns:minmax(150px,.9fr) minmax(0,1.2fr); align-items:stretch; gap:0; border:1px solid var(--line); border-radius:13px; overflow:hidden; background:var(--surface); }
-.connection-review dt,.connection-review dd { display:flex; align-items:center; padding:17px 19px; margin:0; font-size:var(--font-body); line-height:1.55; text-align:left; overflow-wrap:anywhere; }
+.connection-review dt,.connection-review dd { display:flex; align-items:center; justify-content:center; padding:17px 19px; margin:0; font-size:var(--font-body); line-height:1.55; text-align:center; overflow-wrap:anywhere; }
 .connection-review dt { background:var(--accent-wash); font-weight:550; }
 .connection-review dd { font-weight:600; border-left:1px solid var(--line); }
 .connection-review-intro { margin-top:14px; }
