@@ -218,7 +218,7 @@
 .engineering-tool-card { display: grid; grid-template-columns: 1fr auto; gap: 7px; padding: clamp(12px, 2vw, 21px); }
 .engineering-tool-card > svg:first-child { color: var(--accent); margin-bottom: 8px; }
 .engineering-tool-card strong, .engineering-tool-card small { grid-column: 1 / -1; }
-.engineering-tool-card strong { font-size: 17px; }
+.engineering-tool-card strong { font-size: var(--font-body); }
 .engineering-tool-card small, .engineering-feature-card p { font-size: var(--font-body); color: var(--muted); line-height: 1.5; }
 .engineering-feature-card { position: relative; display: grid; grid-template-columns: minmax(0,2fr) minmax(0,3fr); overflow: hidden; min-height: 142px; }
 .engineering-feature-card img { width: 100%; height: 100%; object-fit: cover; }

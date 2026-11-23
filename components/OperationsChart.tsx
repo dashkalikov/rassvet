@@ -15,8 +15,8 @@ export default function OperationsChart({title,detail,data,series,unit='',intege
       <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{width:520,height:230}}>
         <LineChart data={data} margin={{top:10,right:12,bottom:2,left:0}}>
           <CartesianGrid vertical={false} stroke="var(--line)" strokeDasharray="3 4"/>
-          <XAxis dataKey="label" minTickGap={40} tickLine={false} tick={{fill:'var(--text)',fontSize:14}} axisLine={{stroke:'var(--line)'}}/>
-          <YAxis allowDecimals={!integer} tickLine={false} tick={{fill:'var(--text)',fontSize:14}} axisLine={false} width={62} unit={unit}/>
+          <XAxis dataKey="label" minTickGap={48} tickLine={false} tick={{fill:'var(--text)',fontSize:16}} axisLine={{stroke:'var(--line)'}}/>
+          <YAxis allowDecimals={!integer} tickLine={false} tick={{fill:'var(--text)',fontSize:16}} axisLine={false} width={72} unit={unit}/>
           <Tooltip contentStyle={{background:'var(--surface)',border:'1px solid var(--line)',borderRadius:10,color:'var(--text)'}}
             itemStyle={{color:'var(--text)'}} labelStyle={{color:'var(--text)'}}/>
           {series.map(item=><Line key={item.key} dataKey={item.key} name={item.name}

@@ -1,12 +1,13 @@
 /* Shared readable text sizes, including compact and mobile layouts. */
 :root {
-  --font-body: 1.0625rem;
-  --font-ui: 1rem;
-  --font-table: .9375rem;
-  --font-caption: .875rem;
+  --font-body: 1.1875rem;
+  --font-ui: 1.125rem;
+  --font-table: 1.0625rem;
+  --font-caption: 1rem;
 }
 
 body { font-size: var(--font-body); }
+.engineering-hero-content>p:not(.engineering-kicker) { font-size: var(--font-body); }
 
 /* Give longer labels room to wrap as their text grows. */
 .card-actions,.wizard-actions,.modal-actions,.orbit-map-legend { flex-wrap: wrap; }
@@ -21,10 +22,23 @@ body { font-size: var(--font-body); }
 .ops-legend { flex-wrap: wrap; }
 .mega-menu-toolbar { flex-wrap: wrap; }
 .ops-table-wrap,.table-scroll { overflow-x: auto; }
-.engineering-history-svg text { font-size: 14px; }
+.engineering-history-svg text { font-size: var(--font-caption); }
+.choice-select-trigger>span:first-child { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: anywhere; line-height: 1.5; }
+.navigation-header .desktop-nav a,.navigation-header .desktop-section-trigger,
+.navigation-header .account-link,.back-to-site,.portal-switcher>summary,
+.ops-header nav a,.ops-header-actions { font-size: var(--font-caption); line-height: 1.45; }
+.navigation-header .desktop-nav>.navigation-group { flex-shrink: 0; }
+
+@media(min-width:761px) and (max-width:1440px) {
+  .navigation-header .desktop-nav { justify-content: flex-start; gap: 8px; overflow-x: auto; scrollbar-width: thin; overscroll-behavior-x: contain; }
+}
 
 @media(max-width:760px) {
   .account-subheading,.tool-heading { flex-wrap: wrap; gap: 14px; }
   .settings-form-actions>.button,.settings-form-actions>.subtle-button { min-height: 44px; }
   .settings-form-actions>.button,.card-actions>.button { max-width: 100%; }
+}
+
+@media(max-width:400px) {
+  .navigation-header .account-link>.user-avatar { display: inline-grid; }
 }

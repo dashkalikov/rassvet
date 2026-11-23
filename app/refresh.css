@@ -119,9 +119,9 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea {
 .mobile-submenu>a { display: grid; grid-template-columns: 27px minmax(0,1fr) 16px; align-items: center; gap: 9px; padding: 12px 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: var(--font-body); line-height: 1.7; }
 .nav-mobile-icon { display: grid; place-items: center; }
 .grouped-mobile-nav>.button { border-radius: 14px; margin-top: 8px; }
-@media(min-width:1241px) { .navigation-header .grouped-mobile-nav,.navigation-header .mobile-menu-button,.navigation-header .navigation-group[data-section=home] { display: none; } .navigation-header .desktop-nav { display: flex; } .navigation-header .nav-popover-bridge,.navigation-header .mega-menu { display: block; } }
-@media(min-width:1241px) and (max-width:1530px) { .navigation-header .desktop-nav a,.navigation-header .desktop-section-trigger { font-size: 12px; padding-inline: 9px; } }
-@media(max-width:1240px) { .navigation-header .desktop-nav,.navigation-header .nav-popover-bridge { display: none; } .navigation-header .mobile-menu-button { display: grid; } .navigation-header .grouped-mobile-nav { display: grid; } }
+@media(min-width:1441px) { .navigation-header .grouped-mobile-nav,.navigation-header .mobile-menu-button,.navigation-header .navigation-group[data-section=home] { display: none; } .navigation-header .desktop-nav { display: flex; } .navigation-header .nav-popover-bridge,.navigation-header .mega-menu { display: block; } }
+@media(min-width:1441px) and (max-width:1530px) { .navigation-header .desktop-nav a,.navigation-header .desktop-section-trigger { font-size: 12px; padding-inline: 9px; } }
+@media(max-width:1440px) { .navigation-header .desktop-nav,.navigation-header .nav-popover-bridge { display: none; } .navigation-header .mobile-menu-button { display: grid; } .navigation-header .grouped-mobile-nav { display: grid; } }
 @media(max-width:760px) {
  .navigation-header { height: 73px; }
  .navigation-header>.header-inner,.account-header>.header-inner { width: calc(100% - 32px); height: 100%; padding-inline: 0; gap: 12px; border-radius: 0; }
@@ -143,7 +143,7 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea {
 @media(prefers-reduced-motion:reduce) { .navigation-header .mega-menu { transition: none; } .mega-feature-card,.mega-feature-photo>img,.mega-links .mega-link-card,.desktop-section-trigger>.material-icon { transition: none; } }
 
 /* Keep the category navigation visible as a second row when browser zoom reduces width. */
-@media(min-width:761px) and (max-width:1240px) {
+@media(min-width:761px) and (max-width:1440px) {
  .navigation-header { height:auto; min-height:116px; }
  .navigation-header>.header-inner { flex-wrap:wrap; gap:4px 16px; padding-block:10px; }
  .navigation-header .brand { margin-right:auto; }
