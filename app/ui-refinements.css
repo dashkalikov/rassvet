@@ -1,3 +1,8 @@
+/* The orbital pattern needs a darker stroke on pale callout backgrounds. */
+:root[data-theme=light] .final-cta .cta-rings {
+ stroke:color-mix(in srgb,var(--accent-strong) 40%,transparent);stroke-width:1;opacity:1;
+}
+
 /* A compact label belongs inside the photograph, without covering its subject. */
 .plan-card>.popular {
  position:absolute;top:45px;left:43px;right:auto;z-index:1;display:inline-flex;align-items:center;gap:7px;
@@ -65,22 +70,24 @@
 .auth-form.is-register .auth-fields { grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px; }
 .auth-form.is-register .password-feedback { margin:16px 0 0;padding:12px 15px; }
 .auth-form.is-register .password-feedback ul { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 18px;margin:10px 0 0; }
-.auth-form.is-register .password-feedback li { min-width:0;font-size:var(--font-caption);line-height:1.5;align-items:flex-start; }
-.auth-form.is-register .password-feedback li>svg { flex:none;margin-top:4px; }
+.auth-form.is-register .password-feedback li { min-width:0;font-size:var(--font-caption);line-height:1.5;align-items:center; }
+.auth-form.is-register .password-feedback li>svg { flex:none;margin-top:0; }
 .auth-form.is-register .confirmation-feedback { margin:8px 0 0;font-size:var(--font-caption);line-height:1.5; }
 .auth-form.is-register .auth-remember { margin:12px 0; }
 .auth-page[data-auth-mode=register] .auth-footer { display:none; }
 .modal.auth-dialog { width:min(640px,calc(100% - 32px));padding:28px 32px;max-height:calc(100svh - 32px); }
-.modal.auth-dialog.is-register { width:min(1040px,calc(100% - 32px)); }
+.modal.auth-dialog.is-register { width:min(1280px,calc(100% - 32px)); }
 .modal.auth-dialog h2 { margin-bottom:16px;font-size:30px; }
-@media(min-width:1280px) { .auth-form.is-register .password-feedback ul { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 @media(max-width:1000px) {
- .auth-page[data-auth-mode=register] .auth-layout { display:block;max-width:860px; }
- .auth-page[data-auth-mode=register] .auth-visual { display:none; }
  .auth-card { padding:26px 28px; }
  .plan-card>.popular { top:40px;left:30px;max-width:calc(100% - 60px); }
 }
+@media(max-width:1200px) {
+ .auth-page[data-auth-mode=register] .auth-layout { display:block;max-width:1040px; }
+ .auth-page[data-auth-mode=register] .auth-visual { display:none; }
+}
 @media(max-width:760px) {
+ .auth-form.is-register .password-feedback ul { grid-template-columns:minmax(0,1fr); }
  .auth-layout { display:block;width:calc(100% - 24px);margin-block:16px; }
  .auth-page[data-auth-mode=login] .auth-visual { display:none; }
  .auth-page[data-auth-mode=register] .auth-layout { width:calc(100% - 24px); }

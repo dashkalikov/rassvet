@@ -12,7 +12,7 @@
 
 ## Иконки
 
-В шапке, меню, карточках навигации, кабинете и переключателе темы используются локальные Google Material Symbols Rounded. 30 SVG, спрайт и лицензия Apache-2.0 находятся в `public/assets/icons/`. Остальные иконки — Lucide. Источники и подготовка описаны в [NAVIGATION-DESIGN.md](NAVIGATION-DESIGN.md). При просмотре внешние шрифты и Google Fonts не загружаются.
+В интерфейсе используется единое контурное семейство Lucide. Компонент `MaterialIcon` сохраняет прежние 30 смысловых имён, но выводит локальную геометрию прямо в SVG страницы без внешнего спрайта. Размеры рядом с текстом: 20–22 px, в заголовках и карточках: 28–32 px. Стили `app/icons.css` защищают иконки от сжатия и выравнивают их в полях и кнопках. Заливка звёзд избранного сохраняется. Прежние исходники Google Material Symbols Rounded и лицензия Apache-2.0 оставлены в `public/assets/icons/`; история подготовки описана в [NAVIGATION-DESIGN.md](NAVIGATION-DESIGN.md). Внешние шрифты и Google Fonts не загружаются.
 
 Четыре реалистичных изображения концептуальных терминалов, исходники и точные промпты описаны в [EQUIPMENT-ASSETS.md](EQUIPMENT-ASSETS.md). В каталоге используются локальные оптимизированные WebP.
 
@@ -48,7 +48,11 @@
 
 > Landscape 3:2 realistic editorial photograph for an engineering dashboard card about satellite broadband subscriptions. A compact white flat rectangular satellite internet terminal installed on a low metal mount beside the upper roof of a quiet modern rural cabin, medium close shot of terminal, soft misty pine forest behind, subdued gray and clean neutral lighting, slightly warm wood in background only, technical product photography, no text or marks, no people, no drawn elements. Main object clearly visible in tiny square crop, center composition.
 
-## Фотографии
+## Объёмные модели оборудования
+
+Четыре модели терминалов Mini, Standard, Pro и Mobility создаются локально в `lib/equipment-terminal.ts` и `lib/equipment-geometry.ts`. Геометрия повторяет внешний вид изображений каталога: литая трёхлучевая опора Standard, складная рамка Mini, монтажная база с шарнирами Pro и низкие опоры Mobility. Добавлены фаски, крепёж, прорези, уплотнения, радиаторы и герметичные разъёмы. Для металла и лицевой панели используются физические материалы и локально генерируемые микротекстуры. Падающие тени и плоскость под моделями отключены. Это визуализации внешнего вида каталога, а не производственные CAD-модели. Для отрисовки используется [Three.js](https://threejs.org/) с лицензией MIT; библиотека включена в локальную сборку. 3D-просмотр не загружает модели, текстуры или окружение с внешних серверов.
+
+## Фотографии сайта
 
 - `public/assets/home.jpg`: [Unsplash, дом среди деревьев](https://images.unsplash.com/photo-1449844908441-8829872d2607).
 - `public/assets/mountains.jpg`: [Unsplash, горная вершина](https://images.unsplash.com/photo-1464822759023-fed622ff2c3b).

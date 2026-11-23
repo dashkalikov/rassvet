@@ -10,6 +10,7 @@ test('guests cannot navigate to sign-in from order confirmation before consent',
  assert.match(html,/<button[^>]*disabled=""[^>]*>Войти и продолжить/);
  assert.doesNotMatch(html,/<a[^>]+href="\/auth\?returnTo=/);
  assert.doesNotMatch(html,/учебн/i);
+ assert.doesNotMatch(html,/Поставьте галочку|connection-consent-hint/);
 });
 test('confirmation and receipt show the same address, contact and subscription details',()=>{
  const {default:Summary}=loadTsx(new URL('../components/ConnectionSummary.tsx',import.meta.url)) as {default:React.ComponentType<Record<string,unknown>>};

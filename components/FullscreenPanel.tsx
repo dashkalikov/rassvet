@@ -14,7 +14,7 @@ export default function FullscreenPanel({children,title,className=''}:{children:
  useEffect(()=>{
   if(!fallback)return;
   const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
-  const escape=(event:KeyboardEvent)=>{if(event.key==='Escape'){setFallback(false);button.current?.focus();}};
+  const escape=(event:KeyboardEvent)=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();setFallback(false);button.current?.focus();}};
   document.addEventListener('keydown',escape);
   return()=>{document.body.style.overflow=overflow;document.removeEventListener('keydown',escape);};
  },[fallback]);
@@ -25,7 +25,7 @@ export default function FullscreenPanel({children,title,className=''}:{children:
   catch{setFallback(true);}
  }
  return <div ref={root} className={`visual-fullscreen ${className} ${expanded?'is-expanded':''} ${fallback?'fullscreen-fallback':''}`}>
-  <div className="fullscreen-tools"><button ref={button} type="button" onClick={toggle} aria-pressed={expanded} aria-label={(expanded?'Свернуть: ':'На весь экран: ')+title} title={expanded?'Свернуть · Esc':'На весь экран'}>{expanded?<Minimize2 size={17}/>:<Maximize2 size={17}/>}<span>{expanded?'Свернуть':'На весь экран'}</span></button></div>
+  <div className="fullscreen-tools"><button ref={button} type="button" onClick={toggle} aria-pressed={expanded} aria-label={(expanded?'Свернуть: ':'На весь экран: ')+title} title={expanded?'Свернуть · Esc':'На весь экран'}>{expanded?<Minimize2 size={20}/>:<Maximize2 size={20}/>}<span>{expanded?'Свернуть':'На весь экран'}</span></button></div>
   {children}
  </div>;
 }

@@ -40,7 +40,7 @@ export default function EngineeringOrbitCatalog({rows,initialId}:{rows:CatalogRo
   return <div className="engineering-orbit-layout">
     <FullscreenPanel title="Каталог спутников" className="ops-panel engineering-catalog">
       <div className="ops-panel-heading">
-        <label className="engineering-search"><Search aria-hidden="true" size={17}/>
+        <label className="engineering-search"><Search aria-hidden="true" size={20}/>
           <input type="search" aria-label="Поиск по каталогу" placeholder="Название или NORAD"
             value={query} onChange={event=>setQuery(event.target.value)}/></label>
         <ExportLink href="/api/operations/export?dataset=satellites">Каталог · CSV</ExportLink>
@@ -48,14 +48,14 @@ export default function EngineeringOrbitCatalog({rows,initialId}:{rows:CatalogRo
       <label className="ops-check"><input type="checkbox" checked={prefs.onlyFavorites} onChange={e=>prefs.update({onlyFavorites:e.target.checked})}/>Только избранные · {prefs.favorites.length}</label>
       <div className="ops-table-wrap ops-satellite-table" tabIndex={0} role="region" aria-label="Таблица каталога">
         <table>
-          <thead><tr><th scope="col"><span className="sr-only">Избранное</span><Star size={15}/></th>{columns.map(({id,label})=><th key={id} scope="col"
+          <thead><tr><th scope="col"><span className="sr-only">Избранное</span><Star size={20}/></th>{columns.map(({id,label})=><th key={id} scope="col"
             aria-sort={id===order.column?(order.ascending?'ascending':'descending'):undefined}>
             <button type="button" onClick={()=>setOrder({column:id,ascending:id!==order.column||!order.ascending})}>
-              {label}{id===order.column&&(order.ascending?<ArrowUp size={12}/>:<ArrowDown size={12}/>)}
+              {label}{id===order.column&&(order.ascending?<ArrowUp size={20}/>:<ArrowDown size={20}/>)}
             </button>
           </th>)}</tr></thead>
           <tbody>{visible.map(row=><tr key={row.id} data-active={row.id===picked.id}>
-            <td><button className="orbit-star-button" type="button" aria-label={(prefs.favorites.includes(row.id)?'Убрать из избранного ':'В избранное ')+row.name} aria-pressed={prefs.favorites.includes(row.id)} onClick={()=>prefs.toggleFavorite(row.id)}><Star size={17} fill={prefs.favorites.includes(row.id)?'currentColor':'none'}/></button></td>
+            <td><button className="orbit-star-button" type="button" aria-label={(prefs.favorites.includes(row.id)?'Убрать из избранного ':'В избранное ')+row.name} aria-pressed={prefs.favorites.includes(row.id)} onClick={()=>prefs.toggleFavorite(row.id)}><Star size={20} fill={prefs.favorites.includes(row.id)?'currentColor':'none'}/></button></td>
             <th scope="row"><button className="engineering-catalog-pick" type="button" onClick={()=>setSelectedId(row.id)}
               aria-pressed={row.id===picked.id}><i className="satellite-color-dot" style={{background:satelliteColor(row.id,prefs.colorMode)}}/>{row.name}</button></th>
             <td>{row.id}</td><td>{display(row.altKm)}</td><td>{display(row.perigeeKm)}</td>
@@ -78,9 +78,9 @@ export default function EngineeringOrbitCatalog({rows,initialId}:{rows:CatalogRo
         <div><dt>Время расчёта UTC</dt><dd><time dateTime={picked.calculatedAt}>{utc(picked.calculatedAt)}</time></dd></div>
       </dl>
       <div className="ops-actions">
-        <a className="ops-button" href={'/operations/orbits/map'+satelliteQuery}><Map size={15}/>Карта</a>
-        <a className="ops-button" href={'/operations/orbits/globe'+satelliteQuery}><Globe2 size={15}/>Глобус</a>
-        <a className="ops-button" href={'/operations/orbits/history'+satelliteQuery}><ChartNoAxesCombined size={15}/>График</a>
+        <a className="ops-button" href={'/operations/orbits/map'+satelliteQuery}><Map size={20}/>Карта</a>
+        <a className="ops-button" href={'/operations/orbits/globe'+satelliteQuery}><Globe2 size={20}/>Глобус</a>
+        <a className="ops-button" href={'/operations/orbits/history'+satelliteQuery}><ChartNoAxesCombined size={20}/>График</a>
       </div>
     </aside>
   </div>;

@@ -1,0 +1,65 @@
+/* Scale interface icons with readable text; keep diagrams and brand artwork separate. */
+:root { --icon-inline:1.25rem;--icon-action:1.375rem;--icon-control:1.5rem;--icon-heading:1.75rem; }
+svg.lucide { flex-shrink:0;vertical-align:middle;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision; }
+:root svg.material-icon.lucide { fill:none;stroke:currentColor;stroke-width:2; }
+
+:root :is(.button,.text-link,.logout-button,.ops-button,.orbit-tool-button)>svg.lucide,
+:root .fullscreen-tools button>svg.lucide,
+:root .back-to-site>svg.lucide {
+ width:var(--icon-action);height:var(--icon-action);flex-shrink:0;
+}
+:root .icon-button>svg.lucide,
+:root .theme-toggle>svg.material-icon,
+:root .orbit-icon-button>svg.lucide { width:var(--icon-action);height:var(--icon-action); }
+:root .mobile-menu-button>svg.material-icon { width:var(--icon-control);height:var(--icon-control); }
+:root .desktop-section-trigger>svg.material-icon { width:var(--icon-inline);height:var(--icon-inline); }
+:root .navigation-header .account-link>svg.material-icon { width:var(--icon-inline);height:var(--icon-inline); }
+:root .portal-switcher>summary>svg.lucide { width:var(--icon-inline);height:var(--icon-inline); }
+
+:root .account-sidebar nav>a>svg { width:var(--icon-action);height:var(--icon-action);flex:none; }
+:root .sidebar-bottom>div { grid-template-columns:var(--icon-action) minmax(0,1fr); }
+:root .sidebar-bottom>div>svg { width:var(--icon-action);height:var(--icon-action); }
+:root .account-order-icon>svg.lucide,
+:root .settings-panel-heading>svg.lucide,
+:root .plan-icon>svg.lucide { width:var(--icon-heading);height:var(--icon-heading); }
+:root .settings-panel-heading>svg.lucide { margin-top:2px; }
+:root .nav-section-icon>svg.material-icon { width:var(--icon-heading);height:var(--icon-heading); }
+:root .hub-card>svg.material-icon:first-child { width:2rem;height:2rem;box-sizing:content-box; }
+:root .mega-link-card svg.material-icon { width:var(--icon-action);height:var(--icon-action); }
+
+:root :is(.benefits-strip,.hero-facts)>span>svg.lucide,
+:root .hero-product-select>svg.lucide,
+:root .hero-product-select>svg.material-icon,
+:root .solution-tabs svg.lucide,
+:root .plan-features svg.lucide,
+:root .order-data svg.lucide { width:var(--icon-inline);height:var(--icon-inline); }
+:root .password-feedback li>svg.lucide { width:var(--icon-inline);height:var(--icon-inline);flex:none; }
+:root .fineprint>svg.lucide,
+:root .auth-note>svg.lucide,
+:root .confirmation-feedback>svg.lucide { width:1.125rem;height:1.125rem;flex:none; }
+
+/* Position input symbols by their actual field height instead of a fixed top offset. */
+:root .input-icon>svg.lucide { width:var(--icon-inline);height:var(--icon-inline);left:14px;top:50%;transform:translateY(-50%);pointer-events:none; }
+:root .input-icon>input { padding-left:46px; }
+:root .password-input>button { display:grid;place-items:center; }
+:root .password-input>button>svg.lucide { width:var(--icon-inline);height:var(--icon-inline); }
+:root .settings-password-input>.icon-button>svg.lucide { width:var(--icon-action);height:var(--icon-action); }
+
+/* A square marker keeps numbers and completion checks on the same centre. */
+:root .wizard-steps li>span,:root .speed-stages li>span {
+ display:inline-grid;place-items:center;flex:none;width:2rem;height:2rem;padding:0;line-height:1;font-style:normal;
+}
+.step-number { display:block;width:100%;height:100%;fill:currentColor;stroke:none;overflow:visible; }
+.step-number>text { font:500 20px var(--font);text-anchor:middle;dominant-baseline:central; }
+:root .wizard-steps li>span>svg.lucide,:root .speed-stages li>span>svg.lucide { display:block;width:20px;height:20px; }
+:root :is(.icon-button,.orbit-icon-button,.orbit-star-button,.nav-tile-icon,.nav-mobile-icon),
+:root .mega-feature-photo>span,
+:root .mobile-navigation-group>div:first-child>button,
+:root .speed-metrics>article>span>i { display:inline-grid;place-items:center;padding:0;line-height:1;flex-shrink:0; }
+:root .speed-metrics>article>span>i { width:28px;height:28px; }
+:root .speed-metrics>article>span>i>svg.lucide { display:block;width:20px;height:20px; }
+:root .mobile-menu-button { place-items:center;padding:0;line-height:1; }
+
+@media(max-width:760px) {
+ :root .account-sidebar nav>a>svg { width:var(--icon-inline);height:var(--icon-inline); }
+}

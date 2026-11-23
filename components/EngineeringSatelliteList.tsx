@@ -26,7 +26,7 @@ export default function EngineeringSatelliteList({models,selectedId,favorites,co
         :a.satellite.name.localeCompare(b.satellite.name,'ru',{numeric:true}));
   },[models,query,sort]);
   return <div className="engineering-satellite-picker">
-    <label className="engineering-search orbit-list-search"><Search size={15} aria-hidden="true"/>
+    <label className="engineering-search orbit-list-search"><Search size={20} aria-hidden="true"/>
       <input type="search" aria-label="Найти аппарат" placeholder="Название или NORAD" value={query} onChange={event=>setQuery(event.target.value)}/></label>
     <div className="orbit-list-toolbar"><span aria-hidden="true">{visible.length}</span>
       <ChoiceSelect value={sort} onValueChange={setSort} options={sortOptions} aria-label="Сортировка аппаратов"/></div>
@@ -40,7 +40,7 @@ export default function EngineeringSatelliteList({models,selectedId,favorites,co
           </button>
           <button className="orbit-star-button" type="button" aria-label={(favorite?'Убрать из избранного ':'В избранное ')+model.satellite.name}
             aria-pressed={favorite} onClick={()=>onToggleFavorite(model.satellite.id)}>
-            <Star size={16} fill={favorite?'currentColor':'none'}/>
+            <Star size={20} fill={favorite?'currentColor':'none'}/>
           </button>
         </div>;
       })}

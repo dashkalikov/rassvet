@@ -9,7 +9,7 @@ const versions=[
 
 export default function PortalSwitcher({current}:{current:Role}){
   return <details className="portal-switcher">
-    <summary><Layers3 size={17} aria-hidden="true"/><span>Кабинеты</span><ChevronDown size={14} aria-hidden="true"/></summary>
+    <summary><Layers3 size={20} aria-hidden="true"/><span>Кабинеты</span><ChevronDown size={20} aria-hidden="true"/></summary>
     <div className="portal-switcher-options">
       {versions.map(({id,label,description,Icon})=><a key={id} href={PORTAL_PATHS[id]} aria-current={current===id?'location':undefined}>
         <Icon size={18} aria-hidden="true"/>

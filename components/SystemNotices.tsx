@@ -25,7 +25,7 @@ export default function SystemNotices(){
   return()=>{window.removeEventListener(eventName,listener);timers.forEach(clearTimeout);};
  },[]);
  const notices=<aside className="system-notices" aria-label="Сообщения системы">{items.map(item=>{
-  const Icon=icons[item.kind];return <div key={item.id} className={'system-notice '+item.kind} role={item.kind==='error'?'alert':'status'}><Icon size={21}/><p>{item.message}</p><button type="button" aria-label="Закрыть уведомление" onClick={()=>setItems(items.filter(n=>n.id!==item.id))}><X size={16}/></button></div>;
+  const Icon=icons[item.kind];return <div key={item.id} className={'system-notice '+item.kind} role={item.kind==='error'?'alert':'status'}><Icon size={21}/><p>{item.message}</p><button type="button" aria-label="Закрыть уведомление" onClick={()=>setItems(items.filter(n=>n.id!==item.id))}><X size={20}/></button></div>;
  })}</aside>;
  return container?createPortal(notices,container):notices;
 }

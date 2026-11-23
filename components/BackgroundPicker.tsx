@@ -12,14 +12,14 @@ export default function BackgroundPicker() {
    {BACKGROUNDS.map(background=><button key={background.id} type="button" aria-pressed={selected===background.id} onClick={()=>setBackground(background.id)}>
     <span className={`background-preview${background.image?'':' background-preview-plain'}`} aria-hidden="true">
      {background.preview?<img src={background.preview} alt="" width={480} height={270} loading="lazy" decoding="async"/>:<ImageOff size={32}/>}
-     <span className="background-choice-mark">{selected===background.id&&<Check size={19}/>}</span>
+     <span className="background-choice-mark">{selected===background.id&&<Check size={20}/>}</span>
     </span>
     <span className="background-option-name">{background.name}</span>
     <span className="background-option-description">{background.description}</span>
     <span className="background-option-category">{background.category}</span>
    </button>)}
   </div>
-  <p className="background-selection-status" role="status" aria-live="polite"><Check size={18}/>Выбрано: {current.name}</p>
+  <p className="background-selection-status" role="status" aria-live="polite"><Check size={20}/>Выбрано: {current.name}</p>
   <p className="background-settings-note"><SunMoon size={21}/><span>Яркость фона подстраивается под светлую и тёмную тему. Панели сохраняют контраст, а фотографии разделов остаются на своих местах. Выбор сохраняется в этом браузере.</span></p>
  </section>;
 }

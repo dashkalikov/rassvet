@@ -16,6 +16,13 @@ const identity=name=>({name:'Проверка '+name,email:name+'@example.test',
 try{
  const db=await mf.getD1Database('DB');
  for(const file of readdirSync('drizzle').filter(name=>name.endsWith('.sql')).sort())await db.batch(readFileSync('drizzle/'+file,'utf8').split('--> statement-breakpoint').map(sql=>db.prepare(sql.trim())).filter(Boolean));
+ const equipmentCatalog=await request('/equipment',200);
+ for(const name of ['Mini','Standard','Pro','Mobility'])assert.ok(equipmentCatalog.text.includes(`3D-просмотр РАССВЕТ ${name}`));
+ for(const id of ['mini','standard','pro','mobility']){
+  const product=await request('/equipment/'+id,200);assert.match(product.text,/role="tab"[^>]*>.*?3D-модель/);
+  const configuration=await request('/equipment/configure?model='+id,200);assert.match(configuration.text,/role="tab"[^>]*>.*?3D-модель/);
+ }
+ const accessories=await request('/equipment/accessories',200);assert.doesNotMatch(accessories.text,/3D-просмотр|3D-модель/);
  const registered=await request('/api/auth/register',201,{body:identity('admin')});
  await db.prepare("INSERT INTO account_access(user_id,role) VALUES (?,'admin')").bind(registered.json().user.userId).run();
  const admin=await request('/api/auth/login',200,{body:{...identity('admin'),portal:'admin'}});

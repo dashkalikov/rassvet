@@ -105,7 +105,7 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
       </section>
       <section className="ops-panel engineering-timeline" aria-label="Управление временем">
         <div className="ops-panel-heading">
-          <div><h2><Clock3 size={18} aria-hidden="true"/>Время расчёта</h2><p><time dateTime={new Date(time).toISOString()}>{utc(time)}</time></p></div>
+          <div><h2><Clock3 size={20} aria-hidden="true"/>Время расчёта</h2><p><time dateTime={new Date(time).toISOString()}>{utc(time)}</time></p></div>
           <div className="ops-actions">
             <button type="button" className="ops-button" onClick={()=>setTime(epoch)}>К эпохе</button>
             <button type="button" className="ops-button" onClick={()=>setTime(Date.now())} disabled={!canShowNow}>Сейчас</button>
@@ -115,7 +115,7 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
           <button type="button" className="ops-button" aria-label={running?'Приостановить расчёт':'Запустить движение'} onClick={()=>{
             if(offset>=90)setOffset(-90);
             setPlaying(!running);
-          }}>{running?<Pause size={17}/>:<Play size={17}/>}</button>
+          }}>{running?<Pause size={20}/>:<Play size={20}/>}</button>
           <label>
             <span className="sr-only">Сдвиг времени в минутах</span>
             <input type="range" min={-90} max={90} step={.5} value={offset}
@@ -137,8 +137,8 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
               if(prefs.favorites.length)prefs.update({onlyFavorites:true});else setSelectedId(null);
             }} disabled={!prefs.onlyFavorites&&!prefs.favorites.length&&!selected}>
             {prefs.onlyFavorites||!prefs.favorites.length
-              ?<><Eye size={14} aria-hidden="true"/>Все аппараты</>
-              :<><Star size={14} aria-hidden="true"/>Избранное · {prefs.favorites.length}</>}
+              ?<><Eye size={20} aria-hidden="true"/>Все аппараты</>
+              :<><Star size={20} aria-hidden="true"/>Избранное · {prefs.favorites.length}</>}
           </button>
         </div>
         <EngineeringSatelliteList models={models} selectedId={selected?.satellite.id??null} favorites={prefs.favorites} colorMode={prefs.colorMode} onPick={choose} onToggleFavorite={prefs.toggleFavorite}/>
@@ -146,7 +146,7 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
       <aside className="ops-panel engineering-visual-details">
       <h2><Satellite size={20} aria-hidden="true"/>Выбранный аппарат</h2>
       {selected?<>
-      <button className="ops-button" type="button" aria-pressed={prefs.favorites.includes(selected.satellite.id)} onClick={()=>prefs.toggleFavorite(selected.satellite.id)}><Star size={16} fill={prefs.favorites.includes(selected.satellite.id)?'currentColor':'none'}/>{prefs.favorites.includes(selected.satellite.id)?'В избранном':'В избранное'}</button>
+      <button className="ops-button" type="button" aria-pressed={prefs.favorites.includes(selected.satellite.id)} onClick={()=>prefs.toggleFavorite(selected.satellite.id)}><Star size={20} fill={prefs.favorites.includes(selected.satellite.id)?'currentColor':'none'}/>{prefs.favorites.includes(selected.satellite.id)?'В избранном':'В избранное'}</button>
       <strong className="engineering-orbit-height">{point?number.format(point.altKm):'—'} <small>км над Землёй</small></strong>
       <dl className="ops-detail">
         <div><dt>NORAD</dt><dd>{selected.satellite.id}</dd></div>

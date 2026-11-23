@@ -14,7 +14,7 @@ export default function AuthScreen({returnTo,mode,portal,restoreLogin=false}:{re
  useEffect(()=>{if(restoreLogin){const saved=readLastLogin();if(saved)setSelectedPortal(saved.portal);}},[restoreLogin]);
  const staff=selectedPortal!=='customer';
  return <div className="auth-page" data-auth-mode={formMode}>
-  <header className="auth-header"><Brand/><div><ThemeToggle/><Link href="/" className="back-to-site"><ArrowLeft size={16}/>На главную</Link></div></header>
+  <header className="auth-header"><Brand/><div><ThemeToggle/><Link href="/" className="back-to-site"><ArrowLeft size={20}/>На главную</Link></div></header>
   <main className="auth-layout">
    <section className="auth-visual">
     <AuthOrbit/><div className="auth-visual-overlay"/>
@@ -32,6 +32,6 @@ export default function AuthScreen({returnTo,mode,portal,restoreLogin=false}:{re
     <AuthForm key={selectedPortal} returnTo={staff?PORTAL_PATHS[selectedPortal]:returnTo} initialMode={mode} portal={selectedPortal} onModeChange={setFormMode}/>
    </section>
   </main>
-  <footer className="auth-footer"><span>© 2026 РАССВЕТ. Спутниковая связь.</span><span><ShieldCheck size={14}/>Локальная версия</span></footer>
+  <footer className="auth-footer"><span>© 2026 РАССВЕТ. Спутниковая связь.</span><span><ShieldCheck size={20}/>Локальная версия</span></footer>
  </div>;
 }

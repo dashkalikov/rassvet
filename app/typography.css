@@ -41,8 +41,8 @@ body { font-size: var(--font-body); }
 .ops-header nav a,.ops-header-actions { font-size: var(--font-caption); line-height: 1.45; }
 .navigation-header .desktop-nav>.navigation-group { flex-shrink: 0; }
 
-@media(min-width:761px) and (max-width:1440px) {
-  .navigation-header .desktop-nav { justify-content: flex-start; gap: 8px; overflow-x: auto; scrollbar-width: thin; overscroll-behavior-x: contain; }
+@media(min-width:761px) and (max-width:1680px) {
+  .navigation-header .desktop-nav { justify-content:space-between;gap:4px;flex-wrap:nowrap; }
 }
 
 @media(max-width:760px) {

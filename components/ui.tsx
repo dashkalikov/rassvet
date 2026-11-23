@@ -20,7 +20,7 @@ export function Modal({ title, children, close, wide = false, className = '' }: 
   }, []);
   return <dialog ref={ref} className={`modal ${wide ? 'wide' : ''} ${className}`} aria-labelledby="modal-title" onCancel={e => { e.preventDefault(); close(); }} onClick={e => { if (e.target === e.currentTarget) { const r = e.currentTarget.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close(); } }}><button className="icon-button close-modal" onClick={close} aria-label="Закрыть окно"><X size={22} /></button><h2 id="modal-title">{title}</h2>{children}</dialog>;
 }
-export function ButtonArrow({ diagonal = false }: { diagonal?: boolean }) { return diagonal ? <ArrowUpRight size={19} /> : <ArrowRight size={19} />; }
+export function ButtonArrow({ diagonal = false }: { diagonal?: boolean }) { return diagonal ? <ArrowUpRight size={20} /> : <ArrowRight size={20} />; }
 export function Login({ close, returnTo = '/account' }: { close: () => void; returnTo?: string }) {
   const [mode,setMode]=useState<'login'|'register'>('login');
   const [portal,setPortal]=useState<Role>('customer');

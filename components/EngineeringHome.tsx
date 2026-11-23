@@ -18,12 +18,12 @@ export default function EngineeringHome(){
     <section className="engineering-hero">
       <img className="engineering-hero-image" src="/assets/engineering/orbit-hero.webp" alt="" width={1440} height={960} fetchPriority="high"/>
       <div className="engineering-hero-content">
-        <p className="engineering-kicker"><Radio size={16} aria-hidden="true"/>РАССВЕТ / ИНЖЕНЕРНЫЙ ПОРТАЛ</p>
+        <p className="engineering-kicker"><Radio size={20} aria-hidden="true"/>РАССВЕТ / ИНЖЕНЕРНЫЙ ПОРТАЛ</p>
         <h1>Инженерная панель</h1>
         <p>Следите за орбитами спутников, проверяйте работу сети и анализируйте подписки.</p>
         <div className="engineering-hero-actions">
-          <Link className="engineering-hero-primary" href="/operations/orbits/map">Открыть карту <ArrowRight size={17}/></Link>
-          <Link className="engineering-hero-secondary" href="/operations/orbits/history">График орбит <ArrowUpRight size={17}/></Link>
+          <Link className="engineering-hero-primary" href="/operations/orbits/map">Открыть карту <ArrowRight size={20}/></Link>
+          <Link className="engineering-hero-secondary" href="/operations/orbits/history">График орбит <ArrowUpRight size={20}/></Link>
         </div>
       </div>
     </section>
@@ -31,7 +31,7 @@ export default function EngineeringHome(){
       <div className="engineering-section-label"><Satellite size={22} aria-hidden="true"/><h2 id="engineering-tools">Орбитальный трекер</h2></div>
       <div className="engineering-tool-grid">
         {tools.map(({href,label,description,Icon})=><a key={href} className="engineering-tool-card" href={href}>
-          <Icon size={22} aria-hidden="true"/><ArrowUpRight size={17} aria-hidden="true"/>
+          <Icon size={22} aria-hidden="true"/><ArrowUpRight size={20} aria-hidden="true"/>
           <strong>{label}</strong><small>{description}</small>
         </a>)}
       </div>

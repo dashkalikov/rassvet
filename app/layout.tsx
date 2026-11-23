@@ -17,6 +17,8 @@ import "./typography.css";
 import "./order-experience.css";
 import "./backgrounds.css";
 import "./ui-refinements.css";
+import "./icons.css";
+import "./equipment-3d.css";
 import {APPEARANCE_BOOTSTRAP} from '../lib/appearance';
 import {BACKGROUND_BOOTSTRAP} from '../lib/backgrounds';
 import BackgroundLayer from '../components/BackgroundLayer';

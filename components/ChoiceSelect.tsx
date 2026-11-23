@@ -31,15 +31,15 @@ export default function ChoiceSelect({value,onValueChange,options,id,name,disabl
     <Select.Root value={value} onValueChange={onValueChange} name={name} disabled={disabled} required={required}>
       <Select.Trigger ref={trigger} className="choice-select-trigger" id={id} aria-haspopup="listbox" {...aria}>
         <Select.Value placeholder={placeholder}>{selected?.label??placeholder}</Select.Value>
-        <Select.Icon asChild><ChevronDown size={17} aria-hidden="true"/></Select.Icon>
+        <Select.Icon asChild><ChevronDown size={20} aria-hidden="true"/></Select.Icon>
       </Select.Trigger>
       <Select.Portal container={container??undefined}>
         <Select.Content className="choice-select-menu" position="popper" align="start" sideOffset={7} collisionPadding={16}>
-          <Select.ScrollUpButton className="choice-select-scroll"><ChevronUp size={16}/></Select.ScrollUpButton>
+          <Select.ScrollUpButton className="choice-select-scroll"><ChevronUp size={20}/></Select.ScrollUpButton>
           <Select.Viewport className="choice-select-options">
-            {options.map(option=><Select.Item key={option.value} value={option.value} disabled={option.disabled} className="choice-select-option"><Select.ItemText>{option.label}</Select.ItemText><Select.ItemIndicator className="choice-select-check"><Check size={17}/></Select.ItemIndicator></Select.Item>)}
+            {options.map(option=><Select.Item key={option.value} value={option.value} disabled={option.disabled} className="choice-select-option"><Select.ItemText>{option.label}</Select.ItemText><Select.ItemIndicator className="choice-select-check"><Check size={20}/></Select.ItemIndicator></Select.Item>)}
           </Select.Viewport>
-          <Select.ScrollDownButton className="choice-select-scroll"><ChevronDown size={16}/></Select.ScrollDownButton>
+          <Select.ScrollDownButton className="choice-select-scroll"><ChevronDown size={20}/></Select.ScrollDownButton>
         </Select.Content>
       </Select.Portal>
     </Select.Root>

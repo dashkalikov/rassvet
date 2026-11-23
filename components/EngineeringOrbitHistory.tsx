@@ -75,7 +75,7 @@ export default function EngineeringOrbitHistory({series,initialId}:{series:Histo
         <button className="ops-button" type="button" disabled={!candidate||ids.length>=4||ids.includes(candidate)} onClick={()=>{
           setIds([...ids,candidate]);
           setCandidate('');
-        }}><Plus size={16}/>Добавить</button>
+        }}><Plus size={20}/>Добавить</button>
       </div>
     </div>
     <div className="ops-toolbar"><div className="orbit-history-period"><span>Период архива</span><ChoiceSelect value={period} onValueChange={setPeriod} options={[{value:'7',label:'7 дней'},{value:'30',label:'30 дней'},{value:'90',label:'90 дней'},{value:'all',label:'Весь архив'}]}/></div><button className="ops-button" type="button" disabled={!prefs.favorites.some(id=>series.some(item=>item.id===id))} onClick={()=>setIds(prefs.favorites.filter(id=>series.some(item=>item.id===id)).slice(0,4))}>Сравнить избранные · до 4</button></div>
@@ -88,7 +88,7 @@ export default function EngineeringOrbitHistory({series,initialId}:{series:Histo
           {item.climbKmDay!==null?' · '+number.format(item.climbKmDay)+' км/сут':''}</small></div>
         <ExportLink href={'/api/operations/export?dataset=orbit&norad='+item.id}>CSV</ExportLink>
         {active.length>1&&<button className="ops-button" type="button" aria-label={'Убрать '+item.name}
-          onClick={()=>setIds(ids.filter(id=>id!==item.id))}><X size={16}/></button>}
+          onClick={()=>setIds(ids.filter(id=>id!==item.id))}><X size={20}/></button>}
       </li>)}
     </ul>
   </FullscreenPanel>;

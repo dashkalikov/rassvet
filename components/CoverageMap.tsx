@@ -33,15 +33,15 @@ export default function CoverageMap({select}:{select:(city:string)=>void}){
     </g>
    </svg>
    <div className="map-controls">
-    <button aria-label="Увеличить карту" disabled={zoom>=1.8} onClick={()=>setZoom(value=>Math.min(1.8,Math.round((value+.2)*10)/10))}><Plus size={17}/></button>
-    <button aria-label="Уменьшить карту" disabled={zoom<=.8} onClick={()=>setZoom(value=>Math.max(.8,Math.round((value-.2)*10)/10))}><Minus size={17}/></button>
-    <button aria-label="Сбросить масштаб" onClick={()=>setZoom(1)}><Crosshair size={17}/></button>
+    <button aria-label="Увеличить карту" disabled={zoom>=1.8} onClick={()=>setZoom(value=>Math.min(1.8,Math.round((value+.2)*10)/10))}><Plus size={20}/></button>
+    <button aria-label="Уменьшить карту" disabled={zoom<=.8} onClick={()=>setZoom(value=>Math.max(.8,Math.round((value-.2)*10)/10))}><Minus size={20}/></button>
+    <button aria-label="Сбросить масштаб" onClick={()=>setZoom(1)}><Crosshair size={20}/></button>
    </div>
   </div>
   <div className="map-footer"><div className="map-legend">
    <span><i className="live"/>Подключение доступно</span>
    <button aria-pressed={labels} onClick={()=>setLabels(!labels)}>{labels?'Скрыть подписи':'Все подписи'}</button>
-  </div><span className="map-hint"><MapPin size={12}/>Выберите город</span></div>
+  </div><span className="map-hint"><MapPin size={20}/>Выберите город</span></div>
   <div className="map-city-shortcuts" aria-label="Города на карте">{visible.map(city=><button key={city.name} onClick={()=>select(city.name)}>{city.name}</button>)}</div>
   <p className="map-attribution">География: <a href="https://www.naturalearthdata.com/downloads/50m-cultural-vectors/" target="_blank" rel="noreferrer">Natural Earth</a> · покрытие сети</p>
  </FullscreenPanel>;
