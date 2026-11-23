@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseOrbitCatalog,createOrbitModel,orbitPosition,orbitTrack,mergeOrbitHistory,climbRate,splitOrbitSamples} from '../lib/orbits.ts';
+import {parseOrbitCatalog,createOrbitModel,orbitPosition,orbitTrack,orbitTrackStep,mergeOrbitHistory,climbRate,splitOrbitSamples} from '../lib/orbits.ts';
 
 test('an orbit chart breaks its line across gaps longer than two days',()=>{
  const samples=['2026-10-18','2026-10-20','2026-11-03'].map((date,i)=>({
@@ -51,4 +51,13 @@ test('duplicate records keep the newest elements and do not inflate the history'
  assert.equal(climbRate(history[sat.id]),null);
  assert.equal(climbRate([{epoch:'2026-11-01T00:00:00Z',semiMajorAxisKm:6800},{epoch:'2026-11-02T00:00:00Z',semiMajorAxisKm:6802},{epoch:'2026-11-03T00:00:00Z',semiMajorAxisKm:6804}]),2);
  assert.equal(climbRate([{epoch:'bad',semiMajorAxisKm:6800}]),null);
+});
+test('a sparsely sampled ground track keeps the same ends and covers the same window',()=>{
+  const [sat]=parseOrbitCatalog(JSON.stringify([omm]));
+  const model=createOrbitModel(sat),at=new Date(sat.epoch);
+  const dense=orbitTrack(model,at),sparse=orbitTrackStep(model,at,3);
+  assert.equal(dense.length,91);
+  assert.equal(sparse.length,31);
+  assert.deepEqual(sparse[0],dense[0]);
+  assert.deepEqual(sparse.at(-1),dense.at(-1));
 });

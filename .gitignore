@@ -31,6 +31,9 @@ yarn-error.log*
 .dev.vars*
 *.pem
 
+# Local account backup — never commit
+rassvet-accounts-*.zip
+
 # Checkout-local tool state
 /.wrangler/
 /.sites-runtime/

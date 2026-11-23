@@ -72,10 +72,15 @@ export function orbitPosition(model:OrbitModel,time:Date):OrbitPoint|null{
  }catch{return null;}
 }
 
-export function orbitTrack(model:OrbitModel,time:Date):OrbitPoint[]{
+/** Ground track from `spanMin` before to `spanMin` after `time`, sampled every `stepMin` minutes. */
+export function orbitTrackStep(model:OrbitModel,time:Date,stepMin=1,spanMin=45):OrbitPoint[]{
  const points:OrbitPoint[]=[];
- for(let minute=-45;minute<=45;minute++){const p=orbitPosition(model,new Date(time.getTime()+minute*60_000));if(p)points.push(p);}
+ for(let minute=-spanMin;minute<=spanMin;minute+=stepMin){const p=orbitPosition(model,new Date(time.getTime()+minute*60_000));if(p)points.push(p);}
  return points;
+}
+
+export function orbitTrack(model:OrbitModel,time:Date):OrbitPoint[]{
+ return orbitTrackStep(model,time,1,45);
 }
 
 /** One observation per element epoch, never one per timer tick or refresh. */
@@ -116,4 +121,24 @@ export function visibilityRadiusDeg(altKm:number,elevationDeg:number):number{
  if(!Number.isFinite(altKm)||!Number.isFinite(elevationDeg)||altKm<=0)return 0;
  const elevation=Math.max(0,Math.min(90,elevationDeg))*Math.PI/180;
  return Math.max(0,(Math.acos(RE/(RE+altKm)*Math.cos(elevation))-elevation)*180/Math.PI);
+}
+
+/**
+ * The footprint ring on the Earth's surface around the sub-satellite point,
+ * discretised for the 3D coverage cone. The same spherical forward formula the
+ * ORBIT globe lab uses for its cone base: every step is a great-circle offset
+ * of `radiusDeg` at a distinct bearing, so the ring closes on itself.
+ */
+export function visibilityRingPoints(lat:number,lon:number,radiusDeg:number,steps=72):Array<[number,number]>{
+  if(!Number.isFinite(lat)||!Number.isFinite(lon)||!Number.isFinite(radiusDeg)||radiusDeg<=0||steps<3)return[];
+  const phi1=lat*Math.PI/180,lam1=lon*Math.PI/180,d=Math.min(179,radiusDeg)*Math.PI/180;
+  const points:Array<[number,number]>=[];
+  for(let i=0;i<steps;i+=1){
+    const bearing=2*Math.PI*i/steps;
+    const phi2=Math.asin(Math.sin(phi1)*Math.cos(d)+Math.cos(phi1)*Math.sin(d)*Math.cos(bearing));
+    let lam2=lam1+Math.atan2(Math.sin(bearing)*Math.sin(d)*Math.cos(phi1),Math.cos(d)-Math.sin(phi1)*Math.sin(phi2));
+    lam2=(lam2+Math.PI)%(2*Math.PI)-Math.PI;
+    points.push([lam2*180/Math.PI,phi2*180/Math.PI]);
+  }
+  return points;
 }

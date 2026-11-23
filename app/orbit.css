@@ -72,9 +72,12 @@
 .orbit-graticule{fill:none;stroke:var(--orbit-land-line);stroke-width:.5;opacity:.5}
 .orbit-land{fill:var(--orbit-land);stroke:var(--orbit-land-line);stroke-width:.45}
 .orbit-trail{fill:none;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;pointer-events:none}
+.orbit-trail-other{stroke-width:1.4}
 .orbit-trail-past{stroke:var(--orbit-trace);opacity:.85}.orbit-trail-future{stroke:var(--orbit-trace);stroke-dasharray:5 6;opacity:.75}
 .orbit-marker{fill:var(--orbit-trace);stroke:var(--orbit-panel);stroke-width:1.2;cursor:pointer}
 .orbit-marker.selected{fill:var(--accent);stroke:var(--text);stroke-width:1.2}
+.orbit-marker.dimmed{opacity:.42}
+.orbit-footprint .orbit-cone,.orbit-footprint .orbit-cone-rays{pointer-events:none}
 .orbit-marker-halo{fill:var(--accent);fill-opacity:.19;stroke:none}
 .orbit-marker text{fill:var(--text);stroke:var(--orbit-panel);stroke-width:3px;paint-order:stroke;font-size:var(--font-caption);font-weight:600;pointer-events:none}
 .orbit-marker:focus{outline:none}.orbit-marker:focus>circle:first-of-type{stroke:var(--text);stroke-width:3}
@@ -82,7 +85,7 @@
 .orbit-map-tools button{border:1px solid var(--orbit-line);border-radius:10px;display:grid;place-items:center;width:32px;height:32px;background:var(--orbit-panel)}
 .orbit-map-tools button:hover{border-color:var(--accent)}
 .orbit-map-legend{position:absolute;bottom:0;left:0;right:0;padding:12px 17px;display:flex;align-items:center;gap:10px 17px;flex-wrap:wrap;border-top:1px solid var(--orbit-line);background:var(--orbit-panel);font-size:var(--font-caption);color:var(--orbit-muted)}
-.orbit-map-legend span{display:flex;align-items:center;gap:6px}.orbit-map-legend i{width:16px;border-top:2px solid var(--orbit-trace)}.orbit-map-legend span:nth-child(2) i{border-top-style:dashed}
+.orbit-map-legend span{display:flex;align-items:center;gap:6px}.orbit-map-legend i{width:16px;border-top:2px solid var(--orbit-trace)}.orbit-map-legend .orbit-legend-dashed i{border-top-style:dashed}.orbit-map-legend .orbit-legend-all i{border-top-style:dotted}
 .orbit-map-legend small{width:100%;font-size:var(--font-caption)}
 .orbit-timeline{padding:16px 20px;flex-shrink:0}
 .orbit-time-top{display:flex;align-items:center;gap:8px;margin-bottom:14px}

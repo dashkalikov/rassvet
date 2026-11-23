@@ -39,8 +39,8 @@ async function loadView(view:View,requestedId:string){
   if(!catalog.length)return null;
   const selected=catalog.find(satellite=>satellite.id===requestedId);
   if(view==='map'||view==='globe'){
-    const initialId=selected?.id??catalog[0].id;
-    return <EngineeringOrbitMap key={view+':'+initialId+':'+asOf} catalog={catalog} initialId={initialId} view={view} asOf={asOf}/>;
+    // Open with every satellite visible; a specific pick arrives via ?norad=…
+    return <EngineeringOrbitMap key={view+':'+(selected?.id??'all')+':'+asOf} catalog={catalog} initialId={selected?.id} view={view} asOf={asOf}/>;
   }
   const archive=await loadOrbitalArchive(db,catalog.map(satellite=>satellite.id));
   const names=new Map(catalog.map(satellite=>[satellite.id,satellite.name]));

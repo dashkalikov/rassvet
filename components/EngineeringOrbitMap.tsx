@@ -1,11 +1,12 @@
 'use client';
 
 import {useEffect,useMemo,useState} from 'react';
-import {Clock3,Pause,Play,Satellite,Star} from 'lucide-react';
-import {createOrbitModel,orbitPosition,orbitTrack,type OrbitSatellite} from '../lib/orbits';
+import {Clock3,Eye,Pause,Play,Satellite,Star} from 'lucide-react';
+import {createOrbitModel,orbitPosition,orbitTrack,orbitTrackStep,type OrbitPoint,type OrbitSatellite} from '../lib/orbits';
 import ChoiceSelect from './ChoiceSelect';
 import OrbitMap from './OrbitMap';
 import {satelliteColor,useOrbitPreferences} from '../lib/use-orbit-preferences';
+import EngineeringSatelliteList from './EngineeringSatelliteList';
 
 const sevenDays=7*86_400_000;
 const minute=60_000;
@@ -14,20 +15,22 @@ const number=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2});
 const utc=(value:number)=>new Date(value).toISOString().slice(0,19).replace('T',' ')+' UTC';
 
 export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
-  catalog:OrbitSatellite[];initialId:string;view:'map'|'globe';asOf:number;
+  catalog:OrbitSatellite[];initialId?:string;view:'map'|'globe';asOf:number;
 }){
   const models=useMemo(()=>catalog.map(createOrbitModel),[catalog]);
   const prefs=useOrbitPreferences();
-  const [selectedId,setSelectedId]=useState(initialId);
-  const selected=models.find(model=>model.satellite.id===selectedId)??models[0];
-  const epoch=Date.parse(selected.satellite.epoch);
+  // Nothing is preselected unless the view was opened for a specific satellite (?norad=…):
+  // then every satellite is shown equally, each with its own orbit.
+  const [selectedId,setSelectedId]=useState<string|null>(initialId??null);
+  const selected=models.find(model=>model.satellite.id===selectedId)??null;
+  const referenceEpoch=useMemo(()=>Math.max(...models.map(model=>Date.parse(model.satellite.epoch))),[models]);
+  const epoch=selected?Date.parse(selected.satellite.epoch):referenceEpoch;
   const [anchor,setAnchor]=useState(()=>Math.abs(asOf-epoch)<=sevenDays?asOf:epoch);
   const [offset,setOffset]=useState(0);
   const [rate,setRate]=useState('10');
   const [playing,setPlaying]=useState(false);
   const running=playing&&offset<90;
   const time=anchor+offset*minute;
-  const options=useMemo(()=>catalog.map(item=>({value:item.id,label:item.name+' · '+item.id})),[catalog]);
   const markers=useMemo(()=>{
     const calculationTime=new Date(time);
     return models.map(model=>({
@@ -37,9 +40,25 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
     }));
   },[models,time]);
   const point=markers.find(marker=>marker.id===selectedId)?.point;
-  const displayMarkers=markers.filter(marker=>!prefs.onlyFavorites||prefs.favorites.includes(marker.id)).map(marker=>({...marker,color:satelliteColor(marker.id,prefs.colorMode)}));
+  // The tracked satellite stays on screen even when the favorites filter is active.
+  const displayMarkers=markers.filter(marker=>marker.id===selectedId||!prefs.onlyFavorites||prefs.favorites.includes(marker.id)).map(marker=>({...marker,color:satelliteColor(marker.id,prefs.colorMode)}));
   const trackTime=Math.floor(time/10_000)*10_000;
-  const track=useMemo(()=>Math.abs(trackTime-epoch)<=sevenDays?orbitTrack(selected,new Date(trackTime)):[],[selected,trackTime,epoch]);
+  const track=useMemo(()=>!selected?[]:Math.abs(trackTime-epoch)<=sevenDays?orbitTrack(selected,new Date(trackTime)):[],[selected,trackTime,epoch]);
+  // While nothing is selected, every visible satellite keeps its own orbit on screen.
+  // The id set is derived from the stable catalogue and filters, and the coarse sampling
+  // (3 minutes) plus the 10-second quantum keep the SGP4 cost low.
+  const visibleIds=useMemo(()=>new Set(models.filter(model=>!prefs.onlyFavorites||prefs.favorites.includes(model.satellite.id)).map(model=>model.satellite.id)),[models,prefs.onlyFavorites,prefs.favorites]);
+  const allTracks=useMemo(()=>{
+    if(selected)return{};
+    const t=new Date(trackTime),result:Record<string,OrbitPoint[]>={};
+    for(const model of models){
+      if(!visibleIds.has(model.satellite.id))continue;
+      if(Math.abs(trackTime-Date.parse(model.satellite.epoch))>sevenDays)continue;
+      const points=orbitTrackStep(model,t,3);
+      if(points.length>1)result[model.satellite.id]=points;
+    }
+    return result;
+  },[selected,trackTime,visibleIds,models]);
   const canShowNow=Math.abs(asOf-epoch)<=sevenDays;
 
   useEffect(()=>{
@@ -60,7 +79,9 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
     setAnchor(value);
   }
 
+  // Picking the tracked satellite again stops tracking it and returns to the full constellation.
   function choose(id:string){
+    if(id===selectedId){setSelectedId(null);return;}
     const satellite=catalog.find(item=>item.id===id);
     if(!satellite)return;
     setSelectedId(id);
@@ -70,7 +91,7 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
 
   return <div className="engineering-orbit-layout orbit-app engineering-orbit-surface">
     <div className="engineering-orbit-main">
-      <OrbitMap markers={displayMarkers} selectedId={selected.satellite.id} track={displayMarkers.some(marker=>marker.id===selectedId)?track:[]} onSelect={choose} fixedMode={view} showLabels={prefs.labels} showFootprints={prefs.footprints} elevation={prefs.elevation}/>
+      <OrbitMap markers={displayMarkers} selectedId={selected?.satellite.id??''} track={selected&&displayMarkers.some(marker=>marker.id===selectedId)?track:[]} tracks={selected?undefined:allTracks} favorites={prefs.favorites} onSelect={choose} fixedMode={view} showLabels={prefs.labels} showFootprints={prefs.footprints} elevation={prefs.elevation}/>
       <section className="ops-panel orbit-display-settings" aria-label="Слои и избранное">
         <div className="ops-panel-heading"><h2>Слои и отображение</h2><span>{displayMarkers.filter(marker=>marker.point).length} / {catalog.length} аппаратов</span></div>
         <div className="orbit-layer-options">
@@ -80,8 +101,7 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
           <label>Расцветка<ChoiceSelect value={prefs.colorMode} onValueChange={value=>prefs.update({colorMode:value as 'satellite'|'launch'})} options={[{value:'satellite',label:'По спутникам'},{value:'launch',label:'По группам запуска'}]}/></label>
         </div>
         {prefs.footprints&&<label className="orbit-elevation">Минимальный угол над горизонтом: {prefs.elevation}°<input type="range" min={0} max={90} step={5} value={prefs.elevation} onChange={e=>prefs.update({elevation:Number(e.target.value)})}/><small>Геометрическая радиовидимость. Не учитывает рельеф, погоду и наземные станции.</small></label>}
-        {prefs.onlyFavorites&&!prefs.favorites.length&&<p role="status">Отметьте аппараты звёздочкой в списке ниже или в каталоге.</p>}
-        <div className="orbit-favorite-chips" aria-label="Выбор избранных спутников">{catalog.map(sat=><div key={sat.id}><button className="orbit-star-button" type="button" aria-label={(prefs.favorites.includes(sat.id)?'Убрать из избранного ':'В избранное ')+sat.name} aria-pressed={prefs.favorites.includes(sat.id)} onClick={()=>prefs.toggleFavorite(sat.id)}><Star size={16} fill={prefs.favorites.includes(sat.id)?'currentColor':'none'}/></button><button type="button" aria-pressed={selectedId===sat.id} onClick={()=>choose(sat.id)}><i style={{background:satelliteColor(sat.id,prefs.colorMode)}}/>{sat.name}</button></div>)}</div>
+        {prefs.onlyFavorites&&!prefs.favorites.length&&<p role="status">Отметьте аппараты звёздочкой в списке справа или в каталоге.</p>}
       </section>
       <section className="ops-panel engineering-timeline" aria-label="Управление временем">
         <div className="ops-panel-heading">
@@ -107,10 +127,26 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
         {!canShowNow&&<p>Элементы старше семи суток. Обновите каталог для расчёта на текущее время.</p>}
       </section>
     </div>
-    <aside className="ops-panel engineering-visual-details">
+    <div className="engineering-orbit-side">
+      <section className="ops-panel engineering-orbit-list" aria-label="Выбор аппарата">
+        <div className="ops-panel-heading">
+          <div className="engineering-orbit-list-title"><h2>Аппараты</h2><span>{catalog.length} в каталоге</span></div>
+          <button type="button" className={`ops-button engineering-orbit-all${prefs.onlyFavorites?' is-favorites':''}`} aria-pressed={prefs.onlyFavorites}
+            onClick={()=>{
+              if(prefs.onlyFavorites){setSelectedId(null);prefs.update({onlyFavorites:false});return;}
+              if(prefs.favorites.length)prefs.update({onlyFavorites:true});else setSelectedId(null);
+            }} disabled={!prefs.onlyFavorites&&!prefs.favorites.length&&!selected}>
+            {prefs.onlyFavorites||!prefs.favorites.length
+              ?<><Eye size={14} aria-hidden="true"/>Все аппараты</>
+              :<><Star size={14} aria-hidden="true"/>Избранное · {prefs.favorites.length}</>}
+          </button>
+        </div>
+        <EngineeringSatelliteList models={models} selectedId={selected?.satellite.id??null} favorites={prefs.favorites} colorMode={prefs.colorMode} onPick={choose} onToggleFavorite={prefs.toggleFavorite}/>
+      </section>
+      <aside className="ops-panel engineering-visual-details">
       <h2><Satellite size={20} aria-hidden="true"/>Выбранный аппарат</h2>
+      {selected?<>
       <button className="ops-button" type="button" aria-pressed={prefs.favorites.includes(selected.satellite.id)} onClick={()=>prefs.toggleFavorite(selected.satellite.id)}><Star size={16} fill={prefs.favorites.includes(selected.satellite.id)?'currentColor':'none'}/>{prefs.favorites.includes(selected.satellite.id)?'В избранном':'В избранное'}</button>
-      <ChoiceSelect value={selected.satellite.id} onValueChange={choose} options={options} aria-label="Выбранный аппарат"/>
       <strong className="engineering-orbit-height">{point?number.format(point.altKm):'—'} <small>км над Землёй</small></strong>
       <dl className="ops-detail">
         <div><dt>NORAD</dt><dd>{selected.satellite.id}</dd></div>
@@ -123,6 +159,13 @@ export default function EngineeringOrbitMap({catalog,initialId,view,asOf}:{
         <a className="ops-button" href={'/operations/orbits/history?norad='+selected.satellite.id}>График аппарата</a>
         <a className="ops-button" href={'/operations/orbits/catalog?norad='+selected.satellite.id}>Карточка</a>
       </div>
-    </aside>
+      </>:<p className="engineering-orbit-none">
+        {prefs.onlyFavorites&&prefs.favorites.length
+          ?`Показана избранная группа из ${prefs.favorites.length} — у каждого аппарата своя орбита.`
+          :'Все спутники показаны одинаково, каждый со своей орбитой.'}
+        {' '}Кликните по аппарату в списке или на карте, чтобы отслеживать его.
+      </p>}
+      </aside>
+    </div>
   </div>;
 }

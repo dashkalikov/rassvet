@@ -166,6 +166,16 @@ export async function loadAdmin(db:Database,page:number,search:string){
     nextAccounts:accounts.length>pageSize,nextOrders:orders.length>pageSize};
 }
 
+export async function loadAllAdminAccounts(db:Database){
+  return db.all<AdminAccount>(sql`${adminAccounts} ORDER BY a.created_at DESC,a.id`);
+}
+
+type AdminOrderExport={id:string;name:string|null;email:string|null;plan:string;status:SubscriptionStatus;createdAt:string};
+export async function loadAllAdminOrders(db:Database){
+  return db.all<AdminOrderExport>(sql`SELECT o.id,a.name,a.email,o.plan,o.status,o.created_at AS createdAt FROM orders o
+    LEFT JOIN accounts a ON a.id=o.user_id ORDER BY o.created_at DESC,o.id`);
+}
+
 export async function loadSubscriptionEvents(db:Database,since:string){
   return db.all<SubscriptionEvent>(sql`SELECT order_id AS orderId,plan,previous,status,at
     FROM subscription_events WHERE at>=${since} ORDER BY at DESC,id DESC`);

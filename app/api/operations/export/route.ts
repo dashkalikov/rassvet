@@ -1,6 +1,6 @@
 import {getDb} from '../../../../db';
 import {authorized,apiError,HttpError} from '../../../../lib/api';
-import {loadAllAccessEvents,loadCustomerHistory,loadHourlyMetrics,loadOperations,loadSubscriptionEvents,readPeriod} from '../../../../lib/operations';
+import {loadAllAccessEvents,loadAllAdminAccounts,loadAllAdminOrders,loadCustomerHistory,loadHourlyMetrics,loadOperations,loadSubscriptionEvents,readPeriod} from '../../../../lib/operations';
 import {loadOrbitalArchive,loadSatelliteHistory,loadSatelliteMetrics} from '../../../../lib/operations-orbits';
 import {metricCsv,prometheusMetrics} from '../../../../lib/metric-formats';
 
@@ -13,6 +13,8 @@ const columns={
   satellites:['id','name','epoch','source','observedAt','ageHours','calculatedAt','semiMajorAxisKm','perigeeKm','apogeeKm','periodMin','inclinationDeg','eccentricity','altKm','speedKms','latitude','longitude'],
   orbit:['id','epoch','semiMajorAxisKm'],
   access:['id','userId','actorId','action','oldRole','role','oldBlocked','blocked','at'],
+  accounts:['id','name','email','role','blocked','subscriptions','createdAt'],
+  orders:['id','name','email','plan','status','createdAt'],
 } as const;
 type Dataset=keyof typeof columns;
 
@@ -21,7 +23,7 @@ export async function GET(request:Request){
     const params=new URL(request.url).searchParams;
     const format=params.get('format')??'csv',dataset=params.get('dataset')??'daily';
     if(!['csv','json','prom'].includes(format)||(format==='csv'&&!Object.hasOwn(columns,dataset)))throw new HttpError('Неизвестный формат или набор данных.',400);
-    await authorized(format==='csv'&&dataset==='access'?['admin']:['admin','engineer']);
+    await authorized(format==='csv'&&['access','accounts','orders'].includes(dataset)?['admin']:['admin','engineer']);
     const norad=params.get('norad')??'';
     if(format==='csv'&&dataset==='orbit'&&!/^[0-9]{1,9}$/.test(norad))throw new HttpError('Укажите номер NORAD.',400);
     const db=getDb();
@@ -49,6 +51,8 @@ export async function GET(request:Request){
       satellites:()=>loadSatelliteMetrics(db),
       orbit:async()=>(await loadSatelliteHistory(db,norad)).samples.map(point=>({id:norad,...point})),
       access:()=>loadAllAccessEvents(db),
+      accounts:()=>loadAllAdminAccounts(db),
+      orders:()=>loadAllAdminOrders(db),
     };
     return new Response(metricCsv(await sources[key](),columns[key]),{headers:{...headers,'Content-Type':'text/csv; charset=utf-8'}});
   }catch(error){return apiError(error);}

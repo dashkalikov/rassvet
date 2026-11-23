@@ -1,6 +1,7 @@
 'use client';
 import {useSyncExternalStore} from 'react';
 import {notifySystem} from '../components/SystemNotices';
+import {favoriteToggle} from './orbit-favorites';
 const key='rassvet-engineering-orbits-v1',eventName='rassvet-orbit-preferences';
 type Preferences={favorites:string[];onlyFavorites:boolean;labels:boolean;footprints:boolean;elevation:number;colorMode:'satellite'|'launch'};
 const defaults:Preferences={favorites:[],onlyFavorites:false,labels:false,footprints:false,elevation:25,colorMode:'satellite'};
@@ -33,8 +34,11 @@ export function useOrbitPreferences(){
  }
  function toggleFavorite(id:string){
   const included=current.favorites.includes(id);
-  update({favorites:included?current.favorites.filter(item=>item!==id):[...current.favorites,id]});
-  notifySystem('success',included?'Аппарат удалён из избранного.':'Аппарат добавлен в избранное. Он доступен в карте, глобусе и графиках.');
+  const next=favoriteToggle(current.favorites,current.onlyFavorites,id);
+  update({favorites:next.favorites,onlyFavorites:next.onlyFavorites});
+  notifySystem('success',included
+   ?next.favorites.length?'Аппарат удалён из избранного.':'Избранное пустое — на карте и глобусе снова все аппараты.'
+   :next.favorites.length===1?'Аппарат добавлен в избранное — на карте и глобусе показана избранная группа.':'Аппарат добавлен в избранное.');
  }
  return {...state,update,toggleFavorite};
 }

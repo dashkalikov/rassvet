@@ -249,6 +249,31 @@
 .engineering-orbit-layout .orbit-map-label { margin-left: auto; }
 .engineering-timeline .orbit-playback { margin-top: 12px; }
 .engineering-timeline time { font-variant-numeric: tabular-nums; }
+.engineering-orbit-side { min-width: 0; display: grid; gap: 14px; align-content: start; }
+.engineering-orbit-list .ops-panel-heading { flex-direction: column; align-items: stretch; gap: 10px; }
+.engineering-orbit-list-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; flex-wrap: wrap; }
+.engineering-orbit-list .ops-panel-heading span {
+  font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 7px; padding: 2px 6px; white-space: nowrap;
+}
+.engineering-orbit-all { width: 100%; padding: 9px 12px; font-size: 12px; white-space: nowrap; }
+.engineering-orbit-all.is-favorites { border-color: var(--accent); background: var(--selection-surface); font-weight: 650; }
+.engineering-satellite-picker { margin-top: 10px; }
+.engineering-orbit-none { margin-top: 14px; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.orbit-list-search { margin: 0; width: 100%; }
+.orbit-list-search input { width: 100%; min-height: 36px; padding: 6px 9px; }
+.orbit-list-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-block: 10px 9px; font-size: 11px; color: var(--muted); }
+.orbit-list-toolbar .choice-select { width: 64%; }
+.orbit-list-toolbar .choice-select-trigger { min-height: 34px; font-size: 11px; padding: 6px 9px; }
+.engineering-satellite-list { max-height: 330px; min-height: 120px; overflow: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.engineering-satellite-row { display: flex; align-items: center; gap: 4px; border: 1px solid transparent; border-radius: 11px; margin-bottom: 4px; padding-right: 3px; }
+.engineering-satellite-row:hover { border-color: var(--line); }
+.engineering-satellite-row.selected { background: var(--selection-surface); border-color: var(--accent); }
+.engineering-satellite-row > button:first-child {
+  flex: 1; min-width: 0; border: 0; background: transparent; text-align: left;
+  display: flex; align-items: center; gap: 9px; padding: 9px 6px; font: inherit; color: inherit; cursor: pointer;
+}
+.engineering-satellite-row strong { display: block; font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.engineering-satellite-row small { display: block; font-size: 10px; margin-top: 3px; color: var(--muted); white-space: nowrap; }
 .engineering-visual-details > .choice-select { width: 100%; margin-block: 14px; }
 .engineering-orbit-height { display: block; font-size: 30px; line-height: 1.08; font-weight: 650; }
 .engineering-orbit-height small { color: var(--muted); font-size: var(--font-caption); font-weight: 450; }
@@ -309,8 +334,7 @@
 .orbit-favorite-chips>div { display:flex; align-items:center; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
 .orbit-favorite-chips button { display:inline-flex; align-items:center; gap:7px; padding:8px; background:transparent; color:var(--text); font-size:var(--font-ui); cursor:pointer; }
 .orbit-favorite-chips button[aria-pressed=true] { background:var(--accent-wash); }
-.orbit-favorite-chips i,.satellite-color-dot { display:inline-block; width:8px; height:8px; border-radius:50%; flex:none; }
-.engineering-catalog-pick .satellite-color-dot { margin-right:8px; }
+.orbit-favorite-chips i,.satellite-color-dot { display:inline-block; width:8px; height:8px; border-radius:50%; flex:none; }.engineering-catalog-pick .satellite-color-dot { margin-right:8px; }
 .orbit-star-button { display:inline-grid; place-items:center; width:32px; height:32px; border-radius:8px; color:var(--text); background:transparent; cursor:pointer; }
 .orbit-star-button:hover,.orbit-star-button[aria-pressed=true] { background:var(--accent-wash); }
 .orbit-history-period { display:flex; gap:12px; align-items:center; font-size:var(--font-body); }
@@ -339,7 +363,7 @@
 .system-notice>svg { flex:none; margin-top:1px; }
 .system-notice p { margin:0; font-size:var(--font-body); line-height:1.5; }
 .system-notice button { margin-left:auto; color:inherit; background:transparent; cursor:pointer; padding:2px; }
-[data-appearance$="-2026"] .satellite-color-dot,[data-appearance$="-2026"] .orbit-favorite-chips i,[data-appearance$="-2026"] .orbit-footprints,[data-appearance$="-2026"] .orbit-marker circle { filter:grayscale(1); }
+[data-appearance$="-2026"] .satellite-color-dot,[data-appearance$="-2026"] .orbit-footprints,[data-appearance$="-2026"] .orbit-marker circle { filter:grayscale(1); }
 [data-appearance$="-2026"] .engineering-history-svg,[data-appearance$="-2026"] .engineering-series-color { filter:grayscale(1); }
 @keyframes notice-enter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 @media(max-width:760px) { .ops-data-mode { flex-direction:column; align-items:stretch; } .system-notices { right:16px; bottom:16px; } .visual-fullscreen.is-expanded { padding:12px; } }

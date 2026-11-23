@@ -30,10 +30,13 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{se
     {section==='accounts'&&<section className="ops-panel">
       <div className="ops-panel-heading">
         <div><h2>Аккаунты</h2><p>Откройте профиль, чтобы сменить роль, сбросить пароль или настроить доступ.</p></div>
-        <form action="/admin" className="ops-search">
-          <input type="search" name="q" defaultValue={query} placeholder="Имя, почта или ID" aria-label="Найти аккаунт" maxLength={100}/>
-          <button className="ops-button">Найти</button>
-        </form>
+        <div className="ops-row-actions">
+          <form action="/admin" className="ops-search">
+            <input type="search" name="q" defaultValue={query} placeholder="Имя, почта или ID" aria-label="Найти аккаунт" maxLength={100}/>
+            <button className="ops-button">Найти</button>
+          </form>
+          <ExportLink href="/api/operations/export?dataset=accounts">Аккаунты · CSV</ExportLink>
+        </div>
       </div>
       {data.accounts.length?<div className="ops-table-wrap"><table><thead><tr><th>Имя и почта</th><th>Роль</th><th>Доступ</th><th>Подписки</th><th>Создан</th><th>Действия</th></tr></thead><tbody>
         {data.accounts.map(account=><tr key={account.id}>
@@ -49,7 +52,8 @@ export default async function AdminPage({searchParams}:{searchParams:Promise<{se
       </tbody></table></div>:<p>Подходящих аккаунтов нет.</p>}
     </section>}
     {section==='subscriptions'&&<section className="ops-panel">
-      <div className="ops-panel-heading"><div><h2>Заявки и подписки</h2><p>Меняйте статус учебной подписки. Клиент увидит его в личном кабинете.</p></div></div>
+      <div className="ops-panel-heading"><div><h2>Заявки и подписки</h2><p>Меняйте статус учебной подписки. Клиент увидит его в личном кабинете.</p></div>
+        <ExportLink href="/api/operations/export?dataset=orders">Заявки · CSV</ExportLink></div>
       {data.orders.length?<div className="ops-table-wrap"><table><thead><tr><th>Заявка</th><th>Клиент</th><th>Тариф</th><th>Статус</th><th>Действия</th></tr></thead><tbody>
         {data.orders.map(order=><tr key={order.id}><th>{order.id.slice(0,8)}<small>{date(order.createdAt)}</small></th>
           <td>{order.name??'—'}</td><td>{PLANS.find(p=>p.id===order.plan)?.name??order.plan}</td><td>{subscriptionLabel(order.status)}</td>
